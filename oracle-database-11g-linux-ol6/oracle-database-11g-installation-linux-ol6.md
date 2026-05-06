@@ -106,7 +106,7 @@ Complete the prerequisites using the Automatic Setup method described below. The
    ```bash
    [root@localhost ~]# cat /etc/hosts
    127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-   <IP_ADDRESS>  oralinux6.infotech oralinux6
+   <IP_ADDRESS>  oradb11g.example.com oradb11g
    ```
 
 4. Change the hostname
@@ -121,21 +121,21 @@ Complete the prerequisites using the Automatic Setup method described below. The
    [root@localhost ~]# vi /etc/sysconfig/network
    [root@localhost ~]# cat /etc/sysconfig/network
    NETWORKING=yes
-   HOSTNAME=oralinux6.infotech
+   HOSTNAME=oradb11g.example.com
    NTPSERVERARGS=iburst
    ```
 
    Apply the new hostname immediately with:
 
    ```bash
-   [root@localhost ~]# hostname oralinux6.infotech
+   [root@localhost ~]# hostname oradb11g.example.com
    ```
 
    Then restart the network service:
 
    ```bash
    [root@localhost ~]# service network restart
-   [root@localhost ~]# hostname oralinux6.infotech
+   [root@localhost ~]# hostname oradb11g.example.com
    [root@localhost ~]# service network restart
    Shutting down interface eth0:  Device state: 3 (disconnected)
                                                               [  OK  ]
@@ -147,16 +147,16 @@ Complete the prerequisites using the Automatic Setup method described below. The
    Connection activated
                                                               [  OK  ]
    [root@localhost ~]# hostname
-   oralinux6.infotech
+   oradb11g.example.com
    ```
 
-   You should now see the new hostname (e.g., `oralinux6.infotech`).
+   You should now see the new hostname (e.g., `oradb11g.example.com`).
 
    Disconnect from the session and log back in. The prompt should now reflect the new hostname:
 
    ```bash
-   [root@oralinux6 ~]# hostname
-   oralinux6.infotech
+   [root@oradb11g ~]# hostname
+   oradb11g.example.com
    ```
 
 5. Automatic Setup
@@ -164,7 +164,7 @@ Complete the prerequisites using the Automatic Setup method described below. The
    If you plan to use the `oracle-rdbms-server-11gR2-preinstall` package to perform all prerequisite setup automatically, follow the instructions at http://public-yum.oracle.com to set up the yum repository for OL, then run the following command.
 
    ```bash
-   [root@oralinux6 ~]# yum install -y oracle-rdbms-server-11gR2-preinstall
+   [root@oradb11g ~]# yum install -y oracle-rdbms-server-11gR2-preinstall
    ```
 
    All necessary prerequisites will be performed automatically.
@@ -172,13 +172,13 @@ Complete the prerequisites using the Automatic Setup method described below. The
    It is probably worth doing a full update as well, but this is not strictly speaking necessary.
 
    ```bash
-   [root@oralinux6 ~]# yum -y update
+   [root@oradb11g ~]# yum -y update
    ```
 
    Verify the current kernel parameters:
 
    ```bash
-   [root@oralinux6 ~]# /sbin/sysctl -p
+   [root@oradb11g ~]# /sbin/sysctl -p
    net.ipv4.ip_forward = 0
    net.ipv4.conf.default.accept_source_route = 0
    kernel.sysrq = 0
@@ -205,7 +205,7 @@ Complete the prerequisites using the Automatic Setup method described below. The
    Verify the `/etc/security/limits.conf` file:
 
    ```bash
-   [root@oralinux6 ~]# cat /etc/security/limits.conf
+   [root@oradb11g ~]# cat /etc/security/limits.conf
    # /etc/security/limits.conf
    #
    #Each line describes a limit for a user in the form:
@@ -409,7 +409,7 @@ Complete the prerequisites using the Automatic Setup method described below. The
    Set the password for the `oracle` OS user:
 
    ```bash
-   [root@oralinux6 ~]# passwd oracle
+   [root@oradb11g ~]# passwd oracle
    Changing password for user oracle.
    New password:          # Enter your secure password
    Retype new password:   # Re-enter your secure password
@@ -419,7 +419,7 @@ Complete the prerequisites using the Automatic Setup method described below. The
    Update the `/etc/security/limits.d/90-nproc.conf` file as follows. See [MOS Note ID 1487773.1](https://support.oracle.com/epmos/faces/DocContentDisplay?id=1487773.1)
 
    ```bash
-   [root@oralinux6 ~]# cat /etc/security/limits.d/90-nproc.conf
+   [root@oradb11g ~]# cat /etc/security/limits.d/90-nproc.conf
    # Default limit for number of user's processes to prevent
    # accidental fork bombs.
    # See rhbz #432903 for reasoning.
@@ -431,7 +431,7 @@ Complete the prerequisites using the Automatic Setup method described below. The
 7. Verify Hard Disk Partitions
 
    ```bash
-   [root@oralinux6 ~]# df -h
+   [root@oradb11g ~]# df -h
    Filesystem      Size  Used Avail Use% Mounted on
    /dev/sda2        50G  5.7G   41G  13% /
    tmpfs           2.0G   80K  2.0G   1% /dev/shm
@@ -439,7 +439,7 @@ Complete the prerequisites using the Automatic Setup method described below. The
    /dev/sda3        20G   33M   20G   1% /home
    /dev/sda5        20G   33M   20G   1% /tmp
    /dev/sda7       202G   33M  202G   1% /u01
-   [root@oralinux6 ~]# fdisk -l
+   [root@oradb11g ~]# fdisk -l
 
    Disk /dev/ram0: 16 MB, 16777216 bytes
    255 heads, 63 sectors/track, 2 cylinders
@@ -498,7 +498,7 @@ Complete the prerequisites using the Automatic Setup method described below. The
 9. List All Disks
 
    ```bash
-   [root@oralinux6 ~]# lsblk
+   [root@oradb11g ~]# lsblk
    NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
    sda      8:0    0   300G  0 disk
    ├─sda1   8:1    0   400M  0 part /boot
@@ -517,10 +517,10 @@ Complete the prerequisites using the Automatic Setup method described below. The
 9. Format the Additional Disks with XFS
 
    ```bash
-   [root@oralinux6 ~]# mkfs.xfs /dev/sdb
+   [root@oradb11g ~]# mkfs.xfs /dev/sdb
    -bash: mkfs.xfs: command not found
-   [root@oralinux6 ~]# yum -y install mkfs
-   [root@oralinux6 ~]# mkfs.xfs -f /dev/sdb
+   [root@oradb11g ~]# yum -y install mkfs
+   [root@oradb11g ~]# mkfs.xfs -f /dev/sdb
    meta-data=/dev/sdb               isize=256    agcount=4, agsize=32768000 blks
             =                       sectsz=512   attr=2, projid32bit=1
             =                       crc=0        finobt=0
@@ -530,7 +530,7 @@ Complete the prerequisites using the Automatic Setup method described below. The
    log      =internal log           bsize=4096   blocks=64000, version=2
             =                       sectsz=512   sunit=0 blks, lazy-count=1
    realtime =none                   extsz=4096   blocks=0, rtextents=0
-   [root@oralinux6 ~]# mkfs.xfs -f /dev/sdc
+   [root@oradb11g ~]# mkfs.xfs -f /dev/sdc
    meta-data=/dev/sdc               isize=256    agcount=4, agsize=32768000 blks
             =                       sectsz=512   attr=2, projid32bit=1
             =                       crc=0        finobt=0
@@ -540,7 +540,7 @@ Complete the prerequisites using the Automatic Setup method described below. The
    log      =internal log           bsize=4096   blocks=64000, version=2
             =                       sectsz=512   sunit=0 blks, lazy-count=1
    realtime =none                   extsz=4096   blocks=0, rtextents=0
-   [root@oralinux6 ~]# mkfs.xfs -f /dev/sdd
+   [root@oradb11g ~]# mkfs.xfs -f /dev/sdd
    meta-data=/dev/sdd               isize=256    agcount=4, agsize=32768000 blks
             =                       sectsz=512   attr=2, projid32bit=1
             =                       crc=0        finobt=0
@@ -555,11 +555,11 @@ Complete the prerequisites using the Automatic Setup method described below. The
 10. Mount the New Disks and Register Them in `/etc/fstab`
 
     ```bash
-    [root@oralinux6 ~]# mkdir /u02 /u03 /u04
-    [root@oralinux6 ~]# mount /dev/sdb /u02
-    [root@oralinux6 ~]# mount /dev/sdc /u03
-    [root@oralinux6 ~]# mount /dev/sdd /u04
-    [root@oralinux6 ~]# df -h
+    [root@oradb11g ~]# mkdir /u02 /u03 /u04
+    [root@oradb11g ~]# mount /dev/sdb /u02
+    [root@oradb11g ~]# mount /dev/sdc /u03
+    [root@oradb11g ~]# mount /dev/sdd /u04
+    [root@oradb11g ~]# df -h
     Filesystem      Size  Used Avail Use% Mounted on
     /dev/sda2        50G  5.9G   41G  13% /
     tmpfs           2.0G   80K  2.0G   1% /dev/shm
@@ -570,13 +570,13 @@ Complete the prerequisites using the Automatic Setup method described below. The
     /dev/sdb        500G   33M  500G   1% /u02
     /dev/sdc        500G   33M  500G   1% /u03
     /dev/sdd        500G   33M  500G   1% /u04
-    [root@oralinux6 ~]# blkid /dev/sdb
+    [root@oradb11g ~]# blkid /dev/sdb
     /dev/sdb: UUID="<UUID_SDB>" TYPE="xfs"
-    [root@oralinux6 ~]# blkid /dev/sdc
+    [root@oradb11g ~]# blkid /dev/sdc
     /dev/sdc: UUID="<UUID_SDC>" TYPE="xfs"
-    [root@oralinux6 ~]# blkid /dev/sdd
+    [root@oradb11g ~]# blkid /dev/sdd
     /dev/sdd: UUID="<UUID_SDD>" TYPE="xfs"
-    [root@oralinux6 ~]# cat /etc/fstab
+    [root@oradb11g ~]# cat /etc/fstab
 
     #
     # /etc/fstab
@@ -595,8 +595,8 @@ Complete the prerequisites using the Automatic Setup method described below. The
     devpts                  /dev/pts                devpts  gid=5,mode=620  0 0
     sysfs                   /sys                    sysfs   defaults        0 0
     proc                    /proc                   proc    defaults        0 0
-    [root@oralinux6 ~]# vi /etc/fstab
-    [root@oralinux6 ~]# cat /etc/fstab
+    [root@oradb11g ~]# vi /etc/fstab
+    [root@oradb11g ~]# cat /etc/fstab
 
     #
     # /etc/fstab
@@ -618,13 +618,13 @@ Complete the prerequisites using the Automatic Setup method described below. The
     devpts                  /dev/pts                devpts  gid=5,mode=620  0 0
     sysfs                   /sys                    sysfs   defaults        0 0
     proc                    /proc                   proc    defaults        0 0
-    [root@ora11bms ~]# reboot
+    [root@oradb11g ~]# reboot
     ```
 
 11. After Rebooting, Verify That All Mount Points Persist
 
     ```bash
-    [root@oralinux6 ~]# df -h
+    [root@oradb11g ~]# df -h
     Filesystem      Size  Used Avail Use% Mounted on
     /dev/sda2        50G  5.8G   41G  13% /
     tmpfs           2.0G   72K  2.0G   1% /dev/shm
@@ -640,17 +640,17 @@ Complete the prerequisites using the Automatic Setup method described below. The
 9. Create the directories in which the Oracle software will be installed.
 
    ```bash
-   [root@ora11bms ~]# mkdir -p /u01/app/oracle/product/11g/dbhome_1
-   [root@ora11bms ~]# mkdir -p /u02/oradata/gen21qc
-   [root@ora11bms ~]# mkdir -p /u03/oradata/gen21qc
-   [root@ora11bms ~]# mkdir -p /u03/oraindx/gen21qc
-   [root@ora11bms ~]# mkdir -p /u04/orafra/gen21qc
-   [root@ora11bms ~]# mkdir /u04/dump
-   [root@ora11bms ~]# mkdir -p /u04/backup/scripts
-   [root@ora11bms ~]# mkdir /u04/backup/logs
-   [root@ora11bms ~]# mkdir /u04/backup/daily
-   [root@ora11bms ~]# chown -R oracle:oinstall /u01 /u02 /u03 /u04
-   [root@ora11bms ~]# chmod -R 775  /u01 /u02 /u03 /u04
+   [root@oradb11g ~]# mkdir -p /u01/app/oracle/product/11g/dbhome_1
+   [root@oradb11g ~]# mkdir -p /u02/oradata/dbtest11g
+   [root@oradb11g ~]# mkdir -p /u03/oradata/dbtest11g
+   [root@oradb11g ~]# mkdir -p /u03/oraindx/dbtest11g
+   [root@oradb11g ~]# mkdir -p /u04/orafra/dbtest11g
+   [root@oradb11g ~]# mkdir /u04/dump
+   [root@oradb11g ~]# mkdir -p /u04/backup/scripts
+   [root@oradb11g ~]# mkdir /u04/backup/logs
+   [root@oradb11g ~]# mkdir /u04/backup/daily
+   [root@oradb11g ~]# chown -R oracle:oinstall /u01 /u02 /u03 /u04
+   [root@oradb11g ~]# chmod -R 775  /u01 /u02 /u03 /u04
    ```
 
    > Putting mount points directly under root without mounting separate disks to them is typically a bad idea. It's done here for simplicity, but for a real installation "/" storage should be reserved for the OS.
@@ -658,14 +658,14 @@ Complete the prerequisites using the Automatic Setup method described below. The
 10. Create the DBA Scripts Directory
 
     ```bash
-    [root@ora11bms ~]# su - oracle
-    [oracle@ora11bms ~]$ mkdir /home/oracle/scripts
+    [root@oradb11g ~]# su - oracle
+    [oracle@oradb11g ~]$ mkdir /home/oracle/scripts
     ```
 
 11. Configure the Oracle user environment variables in `.bash_profile`
 
     ```bash
-    [oracle@oralinux6 ~]$ cat /home/oracle/.bash_profile
+    [oracle@oradb11g ~]$ cat /home/oracle/.bash_profile
     # .bash_profile
 
     # Get the aliases and functions
@@ -678,8 +678,8 @@ Complete the prerequisites using the Automatic Setup method described below. The
     PATH=$PATH:$HOME/bin
 
     export PATH
-    [oracle@oralinux6 ~]$ vi /home/oracle/.bash_profile
-    [oracle@oralinux6 ~]$ cat /home/oracle/.bash_profile
+    [oracle@oradb11g ~]$ vi /home/oracle/.bash_profile
+    [oracle@oradb11g ~]$ cat /home/oracle/.bash_profile
     # .bash_profile
 
     # Get the aliases and functions
@@ -697,11 +697,11 @@ Complete the prerequisites using the Automatic Setup method described below. The
     TMP=/tmp; export TMP
     TMPDIR=$TMP; export TMPDIR
 
-    ORACLE_HOSTNAME=oralinux6.infotech; export ORACLE_HOSTNAME
-    ORACLE_UNQNAME=gen21qc; export ORACLE_UNQNAME
+    ORACLE_HOSTNAME=oradb11g.example.com; export ORACLE_HOSTNAME
+    ORACLE_UNQNAME=DBTEST11G; export ORACLE_UNQNAME
     ORACLE_BASE=/u01/app/oracle; export ORACLE_BASE
     ORACLE_HOME=$ORACLE_BASE/product/11g/dbhome_1; export ORACLE_HOME
-    ORACLE_SID=gen21qc; export ORACLE_SID
+    ORACLE_SID=DBTEST11G; export ORACLE_SID
 
     PATH=/usr/sbin:$PATH; export PATH
     PATH=$ORACLE_HOME/bin:$PATH; export PATH
@@ -717,19 +717,19 @@ Complete the prerequisites using the Automatic Setup method described below. The
 1. Extract the Oracle Database 11g 64-bit installer
 
    ```bash
-   [oracle@oralinux6 ~]$ cd Downloads/
-   [oracle@oralinux6 Downloads]$ cd Oracle11gLinux64bit/
-   [oracle@oralinux6 Oracle11gLinux64bit]$ unzip V17530-01_1of2.zip
-   [oracle@oralinux6 Oracle11gLinux64bit]$ unzip V17530-01_2of2.zip
-   [oracle@oralinux6 Oracle11gLinux64bit]$ ls
+   [oracle@oradb11g ~]$ cd Downloads/
+   [oracle@oradb11g Downloads]$ cd Oracle11gLinux64bit/
+   [oracle@oradb11g Oracle11gLinux64bit]$ unzip V17530-01_1of2.zip
+   [oracle@oradb11g Oracle11gLinux64bit]$ unzip V17530-01_2of2.zip
+   [oracle@oradb11g Oracle11gLinux64bit]$ ls
    database  V17530-01_1of2.zip  V17530-01_2of2.zip
    ```
 
 2. Launch the Oracle Database 11g installer
 
    ```bash
-   [oracle@ora11bms database]$ cd /home/oracle/Downloads/Oracle11gLinux64bit/database
-   [oracle@ora11bms database]$ ./runInstaller
+   [oracle@oradb11g database]$ cd /home/oracle/Downloads/Oracle11gLinux64bit/database
+   [oracle@oradb11g database]$ ./runInstaller
    ```
 
 3. Uncheck "I wish to receive security updates via My Oracle Support", then press Next button to continue.
@@ -795,14 +795,14 @@ Complete the prerequisites using the Automatic Setup method described below. The
     Execute the following configuration scripts as the root OS user:
 
     ```bash
-    [root@oralinux6 ~]# /u01/app/oraInventory/orainstRoot.sh
+    [root@oradb11g ~]# /u01/app/oraInventory/orainstRoot.sh
     Changing permissions of /u01/app/oraInventory.
     Adding read,write permissions for group.
     Removing read,write,execute permissions for world.
 
     Changing groupname of /u01/app/oraInventory to oinstall.
     The execution of the script is complete.
-    [root@oralinux6 ~]# /u01/app/oracle/product/11g/dbhome_1/root.sh
+    [root@oradb11g ~]# /u01/app/oracle/product/11g/dbhome_1/root.sh
     Running Oracle 11g root.sh script...
 
     The following environment variables are set as:
@@ -830,7 +830,7 @@ Complete the prerequisites using the Automatic Setup method described below. The
 19. Configure a new listener on the default port 1521 using Oracle Net Configuration Assistant (netca)
 
     ```bash
-    [oracle@ora11bms database]$ netca
+    [oracle@oradb11g database]$ netca
     ```
 
 35. Choose "Listener configuration" and press Next to continue.
@@ -866,7 +866,7 @@ Complete the prerequisites using the Automatic Setup method described below. The
 42. Create a new Oracle database using the Database Configuration Assistant (dbca)
 
     ```bash
-    [oracle@ora11bms database]$ dbca
+    [oracle@oradb11g database]$ dbca
     ```
 
 43. Press Next
@@ -960,13 +960,13 @@ Complete the prerequisites using the Automatic Setup method described below. The
 62. Verify the listener status
 
     ```bash
-    [oracle@oralinux6 ~]$ lsnrctl status
+    [oracle@oradb11g ~]$ lsnrctl status
 
     LSNRCTL for Linux: Version 11.2.0.1.0 - Production on 23-OCT-2025 15:46:22
 
     Copyright (c) 1991, 2009, Oracle.  All rights reserved.
 
-    Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=oralinux6.infotech)(PORT=1521)))
+    Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=oradb11g.example.com)(PORT=1521)))
     STATUS of the LISTENER
     ------------------------
     Alias                     LISTENER
@@ -977,22 +977,22 @@ Complete the prerequisites using the Automatic Setup method described below. The
     Security                  ON: Local OS Authentication
     SNMP                      OFF
     Listener Parameter File   /u01/app/oracle/product/11g/dbhome_1/network/admin/listener.ora
-    Listener Log File         /u01/app/oracle/diag/tnslsnr/ora11bms/listener/alert/log.xml
+    Listener Log File         /u01/app/oracle/diag/tnslsnr/oradb11g/listener/alert/log.xml
     Listening Endpoints Summary...
-      (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=oralinux6.infotech)(PORT=1521)))
+      (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=oradb11g.example.com)(PORT=1521)))
     Services Summary...
-    Service "gen21qc.infotech" has 1 instance(s).
-      Instance "gen21qc", status READY, has 1 handler(s) for this service...
-    Service "gen21qcXDB.infotech" has 1 instance(s).
-      Instance "gen21qc", status READY, has 1 handler(s) for this service...
+    Service "DBTEST11G.example.com" has 1 instance(s).
+      Instance "DBTEST11G", status READY, has 1 handler(s) for this service...
+    Service "DBTEST11GXDB.example.com" has 1 instance(s).
+      Instance "DBTEST11G", status READY, has 1 handler(s) for this service...
     The command completed successfully
     ```
 
 63. Test the database connection using SQL*Plus as SYSDBA
 
     ```bash
-    [oracle@oralinux6 ~]$ export ORACLE_SID=gen21qc
-    [oracle@oralinux6 ~]$ sqlplus / as sysdba
+    [oracle@oradb11g ~]$ export ORACLE_SID=DBTEST11G
+    [oracle@oradb11g ~]$ sqlplus / as sysdba
 
     SQL*Plus: Release 11.2.0.1.0 Production on Thu Oct 23 15:47:17 2025
 

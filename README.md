@@ -20,6 +20,3 @@ oracle-installation/
     └── oracle-database-11g-installation-linux-ol6.md
 ```
 
----
-
-*Maintained by PT. Infotech Solution*
