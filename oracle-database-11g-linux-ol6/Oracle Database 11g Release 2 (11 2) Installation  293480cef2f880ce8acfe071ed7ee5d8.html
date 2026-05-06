@@ -1,0 +1,1483 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Oracle Database 11g Release 2 (11.2) Installation On Oracle Linux 6 (OL6)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="293480ce-f2f8-80ce-8acf-e071ed7ee5d8" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://www.notion.so/icons/compose_gray.svg"/></div><h1 class="page-title" dir="auto"><strong>Oracle Database 11g Release 2 (11.2) Installation On Oracle Linux 6 (OL6)</strong></h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="293480ce-f2f8-8055-a62d-d81e0e200763" class=""><em>DocVer 2.0.0 @Oct2025 PT. Infotech Solution</em></p></div><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="293480ce-f2f8-804c-b1f6-cd7c5aedeb82"><div style="font-size:1.5em"><img class="icon notion-static-icon" src="https://www.notion.so/icons/profile_gray.svg"/></div><div style="width:100%"><div style="display:contents" dir="auto"><p id="293480ce-f2f8-8016-a657-ca610280450c" class="">Author By: Kusnandar Rohim</p></div></div></figure></div><div style="display:contents" dir="auto"><hr id="296480ce-f2f8-80e1-b8ff-e458583edfc2"/></div><div style="display:contents" dir="auto"><h2 id="293480ce-f2f8-80b8-98d3-e5762f878740" class="">SOURCE ARTICLE AND DOWNLOAD FILE:</h2></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-8058-a7ed-fef735f9d12d" class="numbered-list" start="1"><li>Installation OS Oracle Linux 6.10: <div style="display:contents" dir="auto"><p id="293480ce-f2f8-805d-8f60-f50baf3d80ab" class=""><a href="https://oracle-base.com/articles/11g/oracle-db-11gr2-installation-on-oracle-linux-6">https://oracle-base.com/articles/11g/oracle-db-11gr2-installation-on-oracle-linux-6</a></p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-804c-aaaa-da86443a5d4c" class="numbered-list" start="5"><li>Download Oracle Database 11g<div style="display:contents" dir="auto"><p id="296480ce-f2f8-8043-93fd-f45c064e640f" class=""><a href="https://edelivery.oracle.com/">https://edelivery.oracle.com/</a></p></div></li></ol></div><div style="display:contents" dir="auto"><hr id="296480ce-f2f8-80dd-83ed-f3f22994590c"/></div><div style="display:contents" dir="auto"><h2 id="293480ce-f2f8-809f-8911-e60ea92024b3" class="">Virtual Machine Specifications</h2></div><div style="display:contents" dir="ltr"><table id="293480ce-f2f8-8086-9a97-f0aafc6eebb9" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="293480ce-f2f8-8097-a696-d32f2becbc83"><th id="PLio" class="simple-table-header-color simple-table-header" style="width:238.9375px">Component</th><th id="^S?M" class="simple-table-header-color simple-table-header" style="width:167px">Minimum (Testing)</th><th id="NMCE" class="simple-table-header-color simple-table-header" style="width:303.109375px">Recommended  (Production)</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="293480ce-f2f8-80b6-a92a-e91433429001"><td id="PLio" class="" style="width:238.9375px"><strong>Memory</strong></td><td id="^S?M" class="" style="width:167px">4 GB (works)</td><td id="NMCE" class="" style="width:303.109375px">64 GB (better for DB workloads)</td></tr></div><div style="display:contents" dir="ltr"><tr id="293480ce-f2f8-8028-bb78-c79b97aea5e4"><td id="PLio" class="" style="width:238.9375px"><strong>CPU</strong></td><td id="^S?M" class="" style="width:167px">2 cores</td><td id="NMCE" class="" style="width:303.109375px">32 cores (improves performance)</td></tr></div><div style="display:contents" dir="ltr"><tr id="293480ce-f2f8-80a2-a10e-f6a6ae5eaaaa"><td id="PLio" class="" style="width:238.9375px"><strong>Disk 1 (OS &amp; Database Software)</strong></td><td id="^S?M" class="" style="width:167px">300 GB</td><td id="NMCE" class="" style="width:303.109375px">500 GB</td></tr></div><div style="display:contents" dir="ltr"><tr id="293480ce-f2f8-808a-acb3-da1d35623689"><td id="PLio" class="" style="width:238.9375px"><strong>Disk 2 (Datafile)</strong></td><td id="^S?M" class="" style="width:167px">300 GB</td><td id="NMCE" class="" style="width:303.109375px">500 GB</td></tr></div><div style="display:contents" dir="ltr"><tr id="293480ce-f2f8-80d3-9298-f10029b8a10a"><td id="PLio" class="" style="width:238.9375px"><strong>Disk 3 (Datafile) is Optional</strong></td><td id="^S?M" class="" style="width:167px">300 GB</td><td id="NMCE" class="" style="width:303.109375px">500 GB</td></tr></div><div style="display:contents" dir="ltr"><tr id="295480ce-f2f8-80f7-bab4-facfe2181305"><td id="PLio" class="" style="width:238.9375px"><strong>Disk 4 (Backup/RMAN/Archivelog)</strong></td><td id="^S?M" class="" style="width:167px">300 GB</td><td id="NMCE" class="" style="width:303.109375px">1 TB</td></tr></div><div style="display:contents" dir="ltr"><tr id="293480ce-f2f8-8040-a4ff-c048c74d9118"><td id="PLio" class="" style="width:238.9375px"><strong>Network</strong></td><td id="^S?M" class="" style="width:167px">Bridged (OK)</td><td id="NMCE" class="" style="width:303.109375px">IP Static &amp; Direct Access from Server Database to Storage</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h2 id="293480ce-f2f8-80d5-99b5-e18cae7f999b" class=""><strong>Suggested Disk Partitioning Scheme (for Oracle Database)</strong></h2></div><div style="display:contents" dir="auto"><ul id="293480ce-f2f8-802d-a41b-d39cc5e284c1" class="bulleted-list"><li style="list-style-type:disc"><code>/dev/sda1</code> → <code>/</code>,<code>/boot</code>,<code>/tmp</code>,<code>/home</code>,<code>swap</code> OS</li></ul></div><div style="display:contents" dir="auto"><ul id="293480ce-f2f8-808a-860f-d98af8af12dc" class="bulleted-list"><li style="list-style-type:disc"><code>/dev/sda2</code> → <code>/u01</code> (Oracle software home)</li></ul></div><div style="display:contents" dir="auto"><ul id="293480ce-f2f8-8021-b8c5-d8768adba417" class="bulleted-list"><li style="list-style-type:disc"><code>/dev/nvme0n1</code> → <code>/u02/oradata</code> (datafiles, redo logs, control files)</li></ul></div><div style="display:contents" dir="auto"><ul id="293480ce-f2f8-80c6-bb38-d9eae39334fd" class="bulleted-list"><li style="list-style-type:disc"><code>/dev/nvme1n1</code> → <code>/u03/oraindx</code>(datafiles, redo logs, control files)</li></ul></div><div style="display:contents" dir="auto"><ul id="293480ce-f2f8-803d-852e-ce94bfb40f71" class="bulleted-list"><li style="list-style-type:disc"><code>/dev/nvme2n1</code> → <code>/u04/orafra</code> (RMAN backups, archive logs)</li></ul></div><div style="display:contents" dir="auto"><ul id="295480ce-f2f8-80e1-9438-c271ebe67fc5" class="bulleted-list"><li style="list-style-type:disc"><code>/dev/nvme2n1</code> → <code>/u04/dump</code> (RMAN backups, archive logs)</li></ul></div><div style="display:contents" dir="auto"><ul id="295480ce-f2f8-80f5-a6a5-e784c455b16b" class="bulleted-list"><li style="list-style-type:disc"><code>/dev/nvme2n1</code> → <code>/u04/backup</code> (RMAN backups, archive logs)</li></ul></div><div style="display:contents" dir="auto"><hr id="296480ce-f2f8-80d6-af56-f9fb95d94133"/></div><div style="display:contents" dir="auto"><p id="293480ce-f2f8-802a-b979-dfe6af05f709" class="">Begin of Installation and Configuration —</p></div><div style="display:contents" dir="auto"><h2 id="293480ce-f2f8-8015-8228-c2925085ebae" class=""><strong>A. Oracle Installation Prerequisites</strong></h2></div><div style="display:contents" dir="auto"><p id="295480ce-f2f8-8051-b65e-e39b80cfbf95" class="">Perform either the Automatic Setup to complete the basic prerequisites. The Additional Setup is required for all installations.</p></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-8002-a798-e05d91385de1" class="numbered-list" start="1"><li>Update OS<div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="293480ce-f2f8-80bc-8c19-fd20fde2bf22" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@localhost ~]# date
+Fri Oct 24 14:46:07 WIB 2025
+[root@localhost ~]# yum clean all
+[root@localhost ~]# yum repolist
+[root@localhost ~]# yum update -y</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-80e4-93e5-dc3df20ef4f7" class="numbered-list" start="2"><li>Check the network configuration and access the internet<div style="display:contents" dir="auto"><pre id="293480ce-f2f8-802f-85ba-d098140a817f" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@localhost ~]# ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:93:4B:DC
+          inet addr:192.168.22.183  Bcast:192.168.22.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe93:4bdc/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:811580 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:119353 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:1166423197 (1.0 GiB)  TX bytes:9391911 (8.9 MiB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:19 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:19 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:1224 (1.1 KiB)  TX bytes:1224 (1.1 KiB)
+[root@localhost ~]# ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=12.6 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=17.2 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=117 time=12.9 ms
+64 bytes from 8.8.8.8: icmp_seq=4 ttl=117 time=22.4 ms
+^C
+--- 8.8.8.8 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3346ms
+rtt min/avg/max/mdev = 12.648/16.331/22.443/3.978 ms</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-80f5-a0c4-fc8c02d69fe5" class="numbered-list" start="3"><li>The &quot;/etc/hosts&quot; file must contain a fully qualified name for the server.<div style="display:contents" dir="auto"><p id="293480ce-f2f8-806e-98d1-d51f8e35a732" class="">before</p></div><div style="display:contents" dir="auto"><pre id="293480ce-f2f8-8065-9724-cb2600da03e8" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@localhost ~]# cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</code></pre></div><div style="display:contents" dir="auto"><p id="293480ce-f2f8-800e-8b2f-f9e5f372d42c" class="">edit file</p></div><div style="display:contents" dir="auto"><pre id="293480ce-f2f8-8007-b011-d7b067af1837" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@localhost ~]# vi /etc/hosts</code></pre></div><div style="display:contents" dir="auto"><p id="293480ce-f2f8-804e-956e-c1e6919a0503" class="">after</p></div><div style="display:contents" dir="auto"><pre id="294480ce-f2f8-80a5-bdee-e24bcbdd134a" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@localhost ~]# cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+192.168.22.183  oralinux6.infotech oralinux6</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-80a7-b757-d6a71b1f21ff" class="numbered-list" start="4"><li>Change the hostname<div style="display:contents" dir="auto"><pre id="296480ce-f2f8-8072-b210-eb642f98ed89" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@localhost ~]# hostname
+localhost.localdomain
+[root@localhost ~]# cat /etc/sysconfig/network
+NETWORKING=yes
+HOSTNAME=localhost.localdomain
+NTPSERVERARGS=iburst
+[root@localhost ~]# vi /etc/sysconfig/network
+[root@localhost ~]# cat /etc/sysconfig/network
+NETWORKING=yes
+HOSTNAME=oralinux6.infotech
+NTPSERVERARGS=iburst</code></pre></div><div style="display:contents" dir="auto"><p id="296480ce-f2f8-80be-b0bc-d731ecc38774" class="">Apply the new hostname immediately with:</p></div><div style="display:contents" dir="auto"><pre id="296480ce-f2f8-804e-9236-ed9707d3f87e" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@localhost ~]# hostname oralinux6.infotech</code></pre></div><div style="display:contents" dir="auto"><p id="296480ce-f2f8-8044-8eb6-e8f26a7b2cca" class="">And then restart networking:</p></div><div style="display:contents" dir="auto"><pre id="296480ce-f2f8-8013-9c03-e9fa560e7da2" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@localhost ~]# service network restart
+[root@localhost ~]# hostname oralinux6.infotech
+[root@localhost ~]# service network restart
+Shutting down interface eth0:  Device state: 3 (disconnected)
+                                                           [  OK  ]
+Shutting down loopback interface:                          [  OK  ]
+Bringing up loopback interface:                            [  OK  ]
+Bringing up interface eth0:  Active connection state: activating
+Active connection path: /org/freedesktop/NetworkManager/ActiveConnection/1
+state: activated
+Connection activated
+                                                           [  OK  ]
+[root@localhost ~]# hostname
+oralinux6.infotech</code></pre></div><div style="display:contents" dir="auto"><p id="296480ce-f2f8-8089-bc22-e487370dcc89" class="">You should now see the new hostname (e.g., oralinux6.infotech).</p></div><div style="display:contents" dir="auto"><p id="296480ce-f2f8-8028-9c92-f7ea3b71016b" class="">Exit from putty, then login again, it should be like this</p></div><div style="display:contents" dir="auto"><pre id="296480ce-f2f8-80c0-87ff-c796a7f265d4" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@oralinux6 ~]# hostname
+oralinux6.infotech</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-80f0-9209-db72b1fe963e" class="numbered-list" start="5"><li>Automatic Setup<div style="display:contents" dir="auto"><p id="293480ce-f2f8-80ff-85bb-d4c33ba82dfb" class="">If you plan to use the &quot;oracle-rdbms-server-11gR2-preinstall&quot; package to perform all your prerequisite setup, follow the instructions at <a href="http://public-yum.oracle.com/">http://public-yum.oracle.com</a> to setup the yum repository for OL, then perform the following command.</p></div><div style="display:contents" dir="auto"><pre id="293480ce-f2f8-80c1-94fa-d7b115b41b8b" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@oralinux6 ~]# yum install -y oracle-rdbms-server-11gR2-preinstall</code></pre></div><div style="display:contents" dir="auto"><p id="293480ce-f2f8-8056-960a-c28fb61cb0d6" class="">All necessary prerequisites will be performed automatically.</p></div><div style="display:contents" dir="auto"><p id="293480ce-f2f8-80a8-87a4-d2997b2f62bf" class="">It is probably worth doing a full update as well, but this is not strictly speaking necessary.</p></div><div style="display:contents" dir="auto"><pre id="293480ce-f2f8-80f4-b067-f56402f968fe" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@oralinux6 ~]# yum -y update</code></pre></div><div style="display:contents" dir="auto"><p id="293480ce-f2f8-809a-ad8e-efbcca9d2787" class="">Check the current kernel parameters.</p></div><div style="display:contents" dir="auto"><pre id="293480ce-f2f8-8041-8250-c47518bc6af9" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@oralinux6 ~]# /sbin/sysctl -p
+net.ipv4.ip_forward = 0
+net.ipv4.conf.default.accept_source_route = 0
+kernel.sysrq = 0
+kernel.core_uses_pid = 1
+net.ipv4.tcp_syncookies = 1
+kernel.msgmnb = 65536
+kernel.msgmax = 65536
+fs.file-max = 6815744
+kernel.sem = 250 32000 100 128
+kernel.shmmni = 4096
+kernel.shmall = 4294967296
+kernel.shmmax = 4398046511104
+kernel.panic_on_oops = 1
+net.core.rmem_default = 262144
+net.core.rmem_max = 4194304
+net.core.wmem_default = 262144
+net.core.wmem_max = 1048576
+net.ipv4.conf.all.rp_filter = 2
+net.ipv4.conf.default.rp_filter = 2
+fs.aio-max-nr = 1048576
+net.ipv4.ip_local_port_range = 9000 65500</code></pre></div><div style="display:contents" dir="auto"><p id="293480ce-f2f8-80ff-84b1-f75d4d2e1a66" class="">Check file /etc/security/limits.conf</p></div><div style="display:contents" dir="auto"><pre id="293480ce-f2f8-80e1-9871-ec900c7d7f3d" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@oralinux6 ~]# cat /etc/security/limits.conf
+# /etc/security/limits.conf
+#
+#Each line describes a limit for a user in the form:
+#&lt;domain&gt;        &lt;type&gt;  &lt;item&gt;  &lt;value&gt;
+#Where:
+#&lt;domain&gt; can be:
+#        - a user name
+#        - a group name, with @group syntax
+#        - the wildcard *, for default entry
+#        - the wildcard %, can be also used with %group syntax,
+#                 for maxlogin limit
+#&lt;type&gt; can have the two values:
+#        - &quot;soft&quot; for enforcing the soft limits
+#        - &quot;hard&quot; for enforcing hard limits
+#&lt;item&gt; can be one of the following:
+#        - core - limits the core file size (KB)
+#        - data - max data size (KB)
+#        - fsize - maximum filesize (KB)
+#        - memlock - max locked-in-memory address space (KB)
+#        - nofile - max number of open file descriptors
+#        - rss - max resident set size (KB)
+#        - stack - max stack size (KB)
+#        - cpu - max CPU time (MIN)
+#        - nproc - max number of processes
+#        - as - address space limit (KB)
+#        - maxlogins - max number of logins for this user
+#        - maxsyslogins - max number of logins on the system
+#        - priority - the priority to run user process with
+#        - locks - max number of file locks the user can hold
+#        - sigpending - max number of pending signals
+#        - msgqueue - max memory used by POSIX message queues (bytes)
+#        - nice - max nice priority allowed to raise to values: [-20, 19]
+#        - rtprio - max realtime priority
+#&lt;domain&gt;      &lt;type&gt;  &lt;item&gt;         &lt;value&gt;
+
+#*               soft    core            0
+#*               hard    rss             10000
+#@student        hard    nproc           20
+#@faculty        soft    nproc           20
+#@faculty        hard    nproc           50
+#ftp             hard    nproc           0
+#@student        -       maxlogins       4
+# End of file
+
+# oracle-rdbms-server-11gR2-preinstall setting for nofile soft limit is 1024
+oracle   soft   nofile    1024
+
+# oracle-rdbms-server-11gR2-preinstall setting for nofile hard limit is 65536
+oracle   hard   nofile    65536
+
+# oracle-rdbms-server-11gR2-preinstall setting for nproc soft limit is 16384
+# refer orabug15971421 for more info.
+oracle   soft   nproc    16384
+
+# oracle-rdbms-server-11gR2-preinstall setting for nproc hard limit is 16384
+oracle   hard   nproc    16384
+
+# oracle-rdbms-server-11gR2-preinstall setting for stack soft limit is 10240KB
+oracle   soft   stack    10240
+
+# oracle-rdbms-server-11gR2-preinstall setting for stack hard limit is 32768KB
+oracle   hard   stack    32768
+
+# oracle-rdbms-server-11gR2-preinstall setting for memlock hard limit is maximum of 128GB on x86_64 or 3GB on x86 OR 90 % of RAM
+oracle   hard   memlock    134217728
+
+# oracle-rdbms-server-11gR2-preinstall setting for memlock soft limit is maximum of 128GB on x86_64 or 3GB on x86 OR 90 % of RAM
+oracle   soft   memlock    134217728</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-8092-b7bc-c4e20c261ca6" class="numbered-list" start="5"><li>The following package groups were included for this installation.<div style="display:contents" dir="auto"><ul id="296480ce-f2f8-8052-8ae9-d058c4756ad3" class="bulleted-list"><li style="list-style-type:disc">Base System &gt; Base</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-802d-b128-ee8be684dfe4" class="bulleted-list"><li style="list-style-type:disc">Base System &gt; Client management tools</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-807a-9b82-e2524f403240" class="bulleted-list"><li style="list-style-type:disc">Base System &gt; Compatibility libraries</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-8016-9516-c128b6356a18" class="bulleted-list"><li style="list-style-type:disc">Base System &gt; Hardware monitoring utilities</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-80d1-b516-e304865b921d" class="bulleted-list"><li style="list-style-type:disc">Base System &gt; Large Systems Performance</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-80b3-b0fc-da39bd33c283" class="bulleted-list"><li style="list-style-type:disc">Base System &gt; Network file system client</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-80d7-bb63-e38b098cf334" class="bulleted-list"><li style="list-style-type:disc">Base System &gt; Performance Tools</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-80f5-9d33-d1277f12c593" class="bulleted-list"><li style="list-style-type:disc">Base System &gt; Perl Support</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-80d1-bffe-e97d1ed695a5" class="bulleted-list"><li style="list-style-type:disc">Servers &gt; Server Platform</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-806b-bb31-c50cd6969af2" class="bulleted-list"><li style="list-style-type:disc">Servers &gt; System administration tools</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-808f-a8d8-e084919fca47" class="bulleted-list"><li style="list-style-type:disc">Desktops &gt; Desktop</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-8027-bfb4-d994bb8a15f2" class="bulleted-list"><li style="list-style-type:disc">Desktops &gt; Desktop Platform</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-808e-a48e-e3976e9b9755" class="bulleted-list"><li style="list-style-type:disc">Desktops &gt; Fonts</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-8051-9a3c-f9419e313e23" class="bulleted-list"><li style="list-style-type:disc">Desktops &gt; General Purpose Desktop</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-80fa-89b8-f521e7fdcddc" class="bulleted-list"><li style="list-style-type:disc">Desktops &gt; Graphical Administration Tools</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-8019-8c90-c63193ab632d" class="bulleted-list"><li style="list-style-type:disc">Desktops &gt; Input Methods</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-809a-90c7-cc22fd055f2f" class="bulleted-list"><li style="list-style-type:disc">Desktops &gt; X Window System</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-80d3-811a-d92be6a6271a" class="bulleted-list"><li style="list-style-type:disc">Development &gt; Additional Development</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-808e-88fc-c5de79b17c12" class="bulleted-list"><li style="list-style-type:disc">Development &gt; Development Tools</li></ul></div><div style="display:contents" dir="auto"><ul id="296480ce-f2f8-8011-9189-c8a54dd498c8" class="bulleted-list"><li style="list-style-type:disc">Applications &gt; Internet Browser</li></ul></div><div style="display:contents" dir="auto"><pre id="296480ce-f2f8-8051-a93d-e2a5883b8589" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all"># Default packages from Oracle Linux 6
+yum -y install elfutils-libelf
+yum -y install elfutils-libelf-devel
+yum -y install glibc
+yum -y install glibc-common
+yum -y install glibc-headers
+yum -y install pdksh
+yum -y install redhat-lsb
+yum -y install compat-libcap1
+yum -y install nfs-utils
+yum -y install xorg-x11-server-Xorg
+yum -y install xorg-x11-xauth
+yum -y install xorg-x11-utils
+yum -y install xdg-utils
+yum -y install xorg-x11-apps
+yum -y install xorg-x11-fonts-*
+yum -y install gnome-desktop
+yum -y install gnome-session
+yum -y install gnome-terminal
+yum -y install nautilus
+yum -y install libXext
+yum -y install libXtst
+yum -y install libX11
+yum -y install libXmu
+yum -y install libXp
+yum -y install libXt
+yum -y install libXrender
+yum -y install libXrandr
+yum -y install libXinerama
+yum -y install openmotif
+yum -y install openmotif22
+yum -y install xterm
+yum -y install wget
+yum -y install curl
+yum -y install firefox
+yum -y install gnome-system-monitor
+yum -y install gnome-panel
+yum -y install vte
+yum -y install gnome-applets
+yum -y install gnome-themes-standard</code></pre></div><div style="display:contents" dir="auto"><p id="296480ce-f2f8-8028-abdf-fff7156a6d42" class="">Install the following packages if they are not already present.</p></div><div style="display:contents" dir="auto"><pre id="295480ce-f2f8-803f-858d-da41c665680b" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all"># Default packages used for the Oracle Installation
+yum install binutils -y
+yum install compat-libstdc++-33 -y
+yum install compat-libstdc++-33.i686 -y
+yum install gcc -y
+yum install gcc-c++ -y
+yum install glibc -y
+yum install glibc.i686 -y
+yum install glibc-devel -y
+yum install glibc-devel.i686 -y
+yum install ksh -y
+yum install libgcc -y
+yum install libgcc.i686 -y
+yum install libstdc++ -y
+yum install libstdc++.i686 -y
+yum install libstdc++-devel -y
+yum install libstdc++-devel.i686 -y
+yum install libaio -y
+yum install libaio.i686 -y
+yum install libaio-devel -y
+yum install libaio-devel.i686 -y
+yum install libXext -y
+yum install libXext.i686 -y
+yum install libXtst -y
+yum install libXtst.i686 -y
+yum install libX11 -y
+yum install libX11.i686 -y
+yum install libXau -y
+yum install libXau.i686 -y
+yum install libxcb -y
+yum install libxcb.i686 -y
+yum install libXi -y
+yum install libXi.i686 -y
+yum install make -y
+yum install sysstat -y
+yum install unixODBC -y
+yum install unixODBC-devel -y
+yum install zlib-devel -y
+yum install elfutils-libelf-devel -y</code></pre></div><div style="display:contents" dir="auto"><blockquote id="295480ce-f2f8-804e-8130-f1e67d729859" class=""> This will install all the necessary 32-bit packages for 11.2.0.1. From 11.2.0.2 onwards many of these are unnecessary, but having them present does not cause a problem.</blockquote></div><div style="display:contents" dir="auto"><p id="293480ce-f2f8-804a-a0b5-c250c2d65065" class="">Create the new groups and users.</p></div><div style="display:contents" dir="auto"><pre id="293480ce-f2f8-80a4-a5f3-f825ad99c125" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">groupadd -g 501 oinstall
+groupadd -g 502 dba
+groupadd -g 503 oper
+groupadd -g 504 asmadmin
+groupadd -g 506 asmdba
+groupadd -g 505 asmoper
+
+useradd -u 502 -g oinstall -G dba,asmdba,oper oracle
+passwd oracle</code></pre></div><div style="display:contents" dir="auto"><blockquote id="293480ce-f2f8-80e0-ae50-e2c19085e6cb" class=""> We are not going to use the &quot;asm&quot; groups, since this installation will not use ASM.</blockquote></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-8007-b1e5-eb4f8613c15b" class="numbered-list" start="6"><li>Additional Setup <div style="display:contents" dir="auto"><p id="293480ce-f2f8-8052-8f98-d5939e61460e" class="">Set the password for the &quot;oracle&quot; user.Set the password for the &quot;oracle&quot; user.</p></div><div style="display:contents" dir="auto"><pre id="293480ce-f2f8-808d-bd2c-e58e46e92571" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@oralinux6 ~]# passwd oracle
+Changing password for user oracle.
+New password:
+Retype new password:
+passwd: all authentication tokens updated successfully.</code></pre></div><div style="display:contents" dir="auto"><p id="293480ce-f2f8-806b-85cf-ee9d9123c64d" class="">Amend the &quot;/etc/security/limits.d/90-nproc.conf&quot; file as described below. See <a href="https://support.oracle.com/epmos/faces/DocContentDisplay?id=1487773.1">MOS Note [ID 1487773.1]</a></p></div><div style="display:contents" dir="auto"><pre id="293480ce-f2f8-8011-8ecf-d30420a2e110" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@oralinux6 ~]# cat /etc/security/limits.d/90-nproc.conf
+# Default limit for number of user&#x27;s processes to prevent
+# accidental fork bombs.
+# See rhbz #432903 for reasoning.
+
+*          soft    nproc     1024
+root       soft    nproc     unlimited</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-8074-a375-d7dc8528351a" class="numbered-list" start="7"><li>Check hardisk partitions<div style="display:contents" dir="auto"><pre id="293480ce-f2f8-8080-a940-ff38218de63e" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@oralinux6 ~]# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda2        50G  5.7G   41G  13% /
+tmpfs           2.0G   80K  2.0G   1% /dev/shm
+/dev/sda1       380M  147M  209M  42% /boot
+/dev/sda3        20G   33M   20G   1% /home
+/dev/sda5        20G   33M   20G   1% /tmp
+/dev/sda7       202G   33M  202G   1% /u01
+[root@oralinux6 ~]# fdisk -l
+
+Disk /dev/ram0: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram1: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram2: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram3: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram4: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram5: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram6: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram7: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram8: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram9: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram10: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram11: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram12: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram13: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram14: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/ram15: 16 MB, 16777216 bytes
+255 heads, 63 sectors/track, 2 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disk identifier: 0x00000000
+
+
+Disk /dev/sda: 322.1 GB, 322122547200 bytes
+255 heads, 63 sectors/track, 39162 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x000e2203
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1          52      409600   83  Linux
+Partition 1 does not end on cylinder boundary.
+/dev/sda2              52        6579    52428800   83  Linux
+/dev/sda3            6579        9190    20971520   83  Linux
+/dev/sda4            9190       39163   240761856    5  Extended
+/dev/sda5            9190       11800    20971520   83  Linux
+/dev/sda6           11801       12845     8388608   82  Linux swap / Solaris
+/dev/sda7           12845       39163   211398656   83  Linux
+
+Disk /dev/sdb: 536.9 GB, 536870912000 bytes
+255 heads, 63 sectors/track, 65270 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x0000909a
+
+   Device Boot      Start         End      Blocks   Id  System
+
+Disk /dev/sdc: 536.9 GB, 536870912000 bytes
+255 heads, 63 sectors/track, 65270 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x00023083
+
+   Device Boot      Start         End      Blocks   Id  System
+
+Disk /dev/sdd: 536.9 GB, 536870912000 bytes
+255 heads, 63 sectors/track, 65270 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x0003cd11
+
+   Device Boot      Start         End      Blocks   Id  System</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-80b7-95c8-f5a66468b93d" class="numbered-list" start="9"><li>List All Disk<div style="display:contents" dir="auto"><pre id="293480ce-f2f8-80f3-84ed-e31e04a6ac24" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@oralinux6 ~]# lsblk
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sda      8:0    0   300G  0 disk
+├─sda1   8:1    0   400M  0 part /boot
+├─sda2   8:2    0    50G  0 part /
+├─sda3   8:3    0    20G  0 part /home
+├─sda4   8:4    0     1K  0 part
+├─sda5   8:5    0    20G  0 part /tmp
+├─sda6   8:6    0     8G  0 part [SWAP]
+└─sda7   8:7    0 201.6G  0 part /u01
+sdb      8:16   0   500G  0 disk
+sdc      8:32   0   500G  0 disk
+sdd      8:48   0   500G  0 disk
+sr0     11:0    1  1024M  0 rom</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-80ea-a4c5-ca5293d2ba26" class="numbered-list" start="9"><li>Format new disk /dev/sdb<div style="display:contents" dir="auto"><pre id="293480ce-f2f8-800e-9b26-cfe5ca56191e" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@oralinux6 ~]# mkfs.xfs /dev/sdb
+-bash: mkfs.xfs: command not found
+[root@oralinux6 ~]# yum -y install mkfs
+[root@oralinux6 ~]# mkfs.xfs -f /dev/sdb
+meta-data=/dev/sdb               isize=256    agcount=4, agsize=32768000 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=0        finobt=0
+data     =                       bsize=4096   blocks=131072000, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=0
+log      =internal log           bsize=4096   blocks=64000, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+[root@oralinux6 ~]# mkfs.xfs -f /dev/sdc
+meta-data=/dev/sdc               isize=256    agcount=4, agsize=32768000 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=0        finobt=0
+data     =                       bsize=4096   blocks=131072000, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=0
+log      =internal log           bsize=4096   blocks=64000, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+[root@oralinux6 ~]# mkfs.xfs -f /dev/sdd
+meta-data=/dev/sdd               isize=256    agcount=4, agsize=32768000 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=0        finobt=0
+data     =                       bsize=4096   blocks=131072000, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=0
+log      =internal log           bsize=4096   blocks=64000, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-80d8-a3bd-ce448a7ee2a4" class="numbered-list numbered-list-digits-2" start="10"><li>Mount a new disk and register into /etc/fstab for a new mount<div style="display:contents" dir="auto"><pre id="293480ce-f2f8-80e8-ad09-fe99e8e51864" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@oralinux6 ~]# mkdir /u02 /u03 /u04
+[root@oralinux6 ~]# mount /dev/sdb /u02
+[root@oralinux6 ~]# mount /dev/sdc /u03
+[root@oralinux6 ~]# mount /dev/sdd /u04
+[root@oralinux6 ~]# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda2        50G  5.9G   41G  13% /
+tmpfs           2.0G   80K  2.0G   1% /dev/shm
+/dev/sda1       380M  147M  209M  42% /boot
+/dev/sda3        20G   33M   20G   1% /home
+/dev/sda5        20G   33M   20G   1% /tmp
+/dev/sda7       202G   33M  202G   1% /u01
+/dev/sdb        500G   33M  500G   1% /u02
+/dev/sdc        500G   33M  500G   1% /u03
+/dev/sdd        500G   33M  500G   1% /u04
+[root@oralinux6 ~]# blkid /dev/sdb
+/dev/sdb: UUID=&quot;532e3b5e-62e4-4cda-bba6-2c654d339e0c&quot; TYPE=&quot;xfs&quot;
+[root@oralinux6 ~]# blkid /dev/sdc
+/dev/sdc: UUID=&quot;3032a361-056a-441e-af40-e63dc184ace0&quot; TYPE=&quot;xfs&quot;
+[root@oralinux6 ~]# blkid /dev/sdd
+/dev/sdd: UUID=&quot;6b096458-6c42-42f2-9c74-2343106ebaa2&quot; TYPE=&quot;xfs&quot;
+[root@oralinux6 ~]# cat /etc/fstab
+
+#
+# /etc/fstab
+# Created by anaconda on Fri Oct 24 18:10:27 2025
+#
+# Accessible filesystems, by reference, are maintained under &#x27;/dev/disk&#x27;
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+UUID=b15d2891-ffbe-4754-8e6e-067b3dc0e97c /                       ext4    defaults        1 1
+UUID=479525e6-9a0c-4526-bff8-19309b7d2877 /boot                   ext4    defaults        1 2
+UUID=d2e8eccb-624c-4f1e-a28f-13e79b68f578 /home                   xfs     defaults        1 2
+UUID=32e8f7bf-a78b-46ae-b2cf-ada4efe8362f /tmp                    xfs     defaults        1 2
+UUID=bc280d79-1f94-4d46-bc7d-7cc2c8bd18b4 /u01                    xfs     defaults        1 2
+UUID=4722624c-58b1-4511-af2b-b7706e5422aa swap                    swap    defaults        0 0
+tmpfs                   /dev/shm                tmpfs   defaults        0 0
+devpts                  /dev/pts                devpts  gid=5,mode=620  0 0
+sysfs                   /sys                    sysfs   defaults        0 0
+proc                    /proc                   proc    defaults        0 0
+[root@oralinux6 ~]# vi /etc/fstab
+[root@oralinux6 ~]# cat /etc/fstab
+
+#
+# /etc/fstab
+# Created by anaconda on Fri Oct 24 18:10:27 2025
+#
+# Accessible filesystems, by reference, are maintained under &#x27;/dev/disk&#x27;
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+UUID=b15d2891-ffbe-4754-8e6e-067b3dc0e97c /                       ext4    defaults        1 1
+UUID=479525e6-9a0c-4526-bff8-19309b7d2877 /boot                   ext4    defaults        1 2
+UUID=d2e8eccb-624c-4f1e-a28f-13e79b68f578 /home                   xfs     defaults        1 2
+UUID=32e8f7bf-a78b-46ae-b2cf-ada4efe8362f /tmp                    xfs     defaults        1 2
+UUID=bc280d79-1f94-4d46-bc7d-7cc2c8bd18b4 /u01                    xfs     defaults        1 2
+UUID=532e3b5e-62e4-4cda-bba6-2c654d339e0c /u02                    xfs     defaults        1 2
+UUID=3032a361-056a-441e-af40-e63dc184ace0 /u03                    xfs     defaults        1 2
+UUID=6b096458-6c42-42f2-9c74-2343106ebaa2 /u04                    xfs     defaults        1 2
+UUID=4722624c-58b1-4511-af2b-b7706e5422aa swap                    swap    defaults        0 0
+tmpfs                   /dev/shm                tmpfs   defaults        0 0
+devpts                  /dev/pts                devpts  gid=5,mode=620  0 0
+sysfs                   /sys                    sysfs   defaults        0 0
+proc                    /proc                   proc    defaults        0 0
+[root@ora11bms ~]# reboot</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-808b-bfef-d8332f538418" class="numbered-list numbered-list-digits-2" start="11"><li>After reboot the OS a new mount still exist on the screen<div style="display:contents" dir="auto"><pre id="293480ce-f2f8-8058-9937-ce5c65dd1fc7" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@oralinux6 ~]# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda2        50G  5.8G   41G  13% /
+tmpfs           2.0G   72K  2.0G   1% /dev/shm
+/dev/sda1       380M  147M  209M  42% /boot
+/dev/sda3        20G   33M   20G   1% /home
+/dev/sda5        20G   33M   20G   1% /tmp
+/dev/sda7       202G   33M  202G   1% /u01
+/dev/sdb        500G   33M  500G   1% /u02
+/dev/sdc        500G   33M  500G   1% /u03
+/dev/sdd        500G   33M  500G   1% /u04</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-8054-9118-fa960ad91d00" class="numbered-list" start="9"><li>Create the directories in which the Oracle software will be installed.<div style="display:contents" dir="auto"><pre id="293480ce-f2f8-8075-9a97-ce49eb8e0491" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@ora11bms ~]# mkdir -p /u01/app/oracle/product/11g/dbhome_1
+[root@ora11bms ~]# mkdir -p /u02/oradata/gen21qc
+[root@ora11bms ~]# mkdir -p /u03/oradata/gen21qc
+[root@ora11bms ~]# mkdir -p /u03/oraindx/gen21qc
+[root@ora11bms ~]# mkdir -p /u04/orafra/gen21qc
+[root@ora11bms ~]# mkdir /u04/dump
+[root@ora11bms ~]# mkdir -p /u04/backup/scripts
+[root@ora11bms ~]# mkdir /u04/backup/logs
+[root@ora11bms ~]# mkdir /u04/backup/daily
+[root@ora11bms ~]# chown -R oracle:oinstall /u01 /u02 /u03 /u04
+[root@ora11bms ~]# chmod -R 775  /u01 /u02 /u03 /u04</code></pre></div><div style="display:contents" dir="auto"><blockquote id="293480ce-f2f8-80d6-afb2-fd438357ba5c" class="">Putting mount points directly under root without mounting separate disks to them is typically a bad idea. It&#x27;s done here for simplicity, but for a real installation &quot;/&quot; storage should be reserved for the OS.</blockquote></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-8090-ac1c-f2bd106577fc" class="numbered-list numbered-list-digits-2" start="10"><li>Create the directories in which the Oracle software will be installed and scripts DBA.<div style="display:contents" dir="auto"><pre id="294480ce-f2f8-80ca-92fe-f629ac7abf19" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@ora11bms ~]# su - oracle
+[oracle@ora11bms ~]$ mkdir /home/oracle/scripts</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="293480ce-f2f8-8038-a627-f2978926f732" class="numbered-list numbered-list-digits-2" start="11"><li>Add the following lines at the end of the &quot;/home/oracle/.bash_profile&quot; file.<div style="display:contents" dir="auto"><pre id="293480ce-f2f8-80f5-b834-ea42c9955a60" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[oracle@oralinux6 ~]$ cat /home/oracle/.bash_profile
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/bin
+
+export PATH
+[oracle@oralinux6 ~]$ vi /home/oracle/.bash_profile
+[oracle@oralinux6 ~]$ cat /home/oracle/.bash_profile
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/bin
+
+export PATH
+
+# Oracle Settings
+TMP=/tmp; export TMP
+TMPDIR=$TMP; export TMPDIR
+
+ORACLE_HOSTNAME=oralinux6.infotech; export ORACLE_HOSTNAME
+ORACLE_UNQNAME=gen21qc; export ORACLE_UNQNAME
+ORACLE_BASE=/u01/app/oracle; export ORACLE_BASE
+ORACLE_HOME=$ORACLE_BASE/product/11g/dbhome_1; export ORACLE_HOME
+ORACLE_SID=gen21qc; export ORACLE_SID
+
+PATH=/usr/sbin:$PATH; export PATH
+PATH=$ORACLE_HOME/bin:$PATH; export PATH
+
+LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib; export LD_LIBRARY_PATH
+CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib; export CLASSPATH
+</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><hr id="296480ce-f2f8-80fc-93b0-db46bdfcbf6c"/></div><div style="display:contents" dir="auto"><h2 id="296480ce-f2f8-80e6-aba4-c8e932dbf600" class=""><strong>B. Oracle 11g Installation On Oracle Linux 6</strong></h2></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-80f7-a510-f8753218272c" class="numbered-list" start="1"><li>Extract file installer Oracle Database 11g 64bit using unzip<div style="display:contents" dir="auto"><pre id="294480ce-f2f8-801b-aa0b-fc6f727e6e54" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[oracle@oralinux6 ~]$ cd Downloads/
+[oracle@oralinux6 Downloads]$ cd Oracle11gLinux64bit/
+[oracle@oralinux6 Oracle11gLinux64bit]$ unzip V17530-01_1of2.zip
+[oracle@oralinux6 Oracle11gLinux64bit]$ unzip V17530-01_2of2.zip
+[oracle@oralinux6 Oracle11gLinux64bit]$ ls
+database  V17530-01_1of2.zip  V17530-01_2of2.zip</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-80dd-b45b-ded6767cfba2" class="numbered-list" start="2"><li>Running installer Oracle Database 11g 64bit<div style="display:contents" dir="auto"><pre id="294480ce-f2f8-8055-a7ad-e3d41c8f5946" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[oracle@ora11bms database]$ cd /home/oracle/Downloads/Oracle11gLinux64bit/database
+[oracle@ora11bms database]$ ./runInstaller</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-80d5-acf5-c9265f017bc5" class="numbered-list" start="3"><li>Uncheck “I wish to receive security updates via My Oracle Support”, then press Next button to continue.<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-8016-a719-fce092129dfa" class="image"><a href="image.png"><img style="width:681.984375px" src="image.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-8031-9117-ea7aafcd5e53" class="numbered-list" start="4"><li>To continue installation, press Yes button.<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-8067-9073-cae36beb01d3" class="image"><a href="image%201.png"><img style="width:681.984375px" src="image%201.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-8000-90df-eb0815c449d5" class="numbered-list" start="5"><li>Select “Install database software only” then press Next button to continue.<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-805b-9d4d-d5c24ae09d9a" class="image"><a href="image%202.png"><img style="width:681.984375px" src="image%202.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-80a4-8f0d-c39feb08d58e" class="numbered-list" start="6"><li>Select “Single instance database installation”<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-8024-9de0-cabc5e783c52" class="image"><a href="image%203.png"><img style="width:681.984375px" src="image%203.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-8018-b95e-c06039c4c451" class="numbered-list" start="7"><li>Press Next button to continue.<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-8001-9adf-e82bcf7a4e45" class="image"><a href="image%204.png"><img style="width:681.984375px" src="image%204.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-8065-b9e3-e6c1f1686ed1" class="numbered-list" start="8"><li>Select licensce oracle for “Standard Edition (4.22GB)”, press Next button to continue.<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-8024-9efb-f35a18cec331" class="image"><a href="image%205.png"><img style="width:681.96875px" src="image%205.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-8040-9c38-e305733bb480" class="numbered-list" start="9"><li>Press Next button to continue<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-80b8-9ff2-d4b7b657f9ce" class="image"><a href="image%206.png"><img style="width:681.984375px" src="image%206.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-80c3-852a-f56c9035a43a" class="numbered-list numbered-list-digits-2" start="10"><li>Press Next button to continue<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-801e-8c2f-f48365610e4f" class="image"><a href="image%207.png"><img style="width:681.984375px" src="image%207.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-80e2-b061-dfca43f363e2" class="numbered-list numbered-list-digits-2" start="11"><li>Press Next button to continue<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-804b-b6db-fff12ed55354" class="image"><a href="image%208.png"><img style="width:681.984375px" src="image%208.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-8096-91fa-eecf96d34ced" class="numbered-list numbered-list-digits-2" start="12"><li>Prerequisite Checks in progress<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-8032-bfb8-e52ba45cb09d" class="image"><a href="image%209.png"><img style="width:681.984375px" src="image%209.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-8057-b6cc-c870f78259d1" class="numbered-list numbered-list-digits-2" start="13"><li>Some packages can usually be ignored since de OUI does not recognise newer packages. Check Ignore All and then press Next button to continue.<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-8002-ad64-da10af75a857" class="image"><a href="image%2010.png"><img style="width:681.984375px" src="image%2010.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-8066-8ae2-d19e04d2ca11" class="numbered-list numbered-list-digits-2" start="14"><li>Press Finish button to installation the software.<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-80de-8daa-c0f08d7e8800" class="image"><a href="image%2011.png"><img style="width:681.984375px" src="image%2011.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-800a-906d-d4e16e33a447" class="numbered-list numbered-list-digits-2" start="15"><li>Installation Software Only Oracle Database 11g is in progress<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-8092-9835-c0e0ad8699ca" class="image"><a href="image%2012.png"><img style="width:681.96875px" src="image%2012.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-800d-aec9-f256272bf90c" class="numbered-list numbered-list-digits-2" start="16"><li>Press Continue button to skip this error.<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-80d0-be78-ed2506827709" class="image"><a href="image%2013.png"><img style="width:681.984375px" src="image%2013.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-804f-9695-c28d961657ef" class="numbered-list numbered-list-digits-2" start="17"><li>Please run this script dba as OS user using root<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-80da-9fc6-e186a3478fa0" class="image"><a href="image%2014.png"><img style="width:681.984375px" src="image%2014.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="296480ce-f2f8-80ee-bb7a-d959966b3799" class="">Execute the configuration scripts as the “root” user OS</p></div><div style="display:contents" dir="auto"><pre id="296480ce-f2f8-8021-96c8-dc82c4b7decc" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[root@oralinux6 ~]# /u01/app/oraInventory/orainstRoot.sh
+Changing permissions of /u01/app/oraInventory.
+Adding read,write permissions for group.
+Removing read,write,execute permissions for world.
+
+Changing groupname of /u01/app/oraInventory to oinstall.
+The execution of the script is complete.
+[root@oralinux6 ~]# /u01/app/oracle/product/11g/dbhome_1/root.sh
+Running Oracle 11g root.sh script...
+
+The following environment variables are set as:
+    ORACLE_OWNER= oracle
+    ORACLE_HOME=  /u01/app/oracle/product/11g/dbhome_1
+
+Enter the full pathname of the local bin directory: [/usr/local/bin]: 
+   Copying dbhome to /usr/local/bin ...
+   Copying oraenv to /usr/local/bin ...
+   Copying coraenv to /usr/local/bin ...
+
+
+Creating /etc/oratab file...
+Entries will be added to the /etc/oratab file as needed by
+Database Configuration Assistant when a database is created
+Finished running generic part of root.sh script.
+Now product-specific root actions will be performed.
+Finished product-specific root actions.</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-80a9-88a6-ca8441403344" class="numbered-list numbered-list-digits-2" start="18"><li>Installation software only oracle database 11g is Finish, press Close button to close the dialog.<div style="display:contents" dir="ltr"><figure id="294480ce-f2f8-8082-a232-d1c0597a6fef" class="image"><a href="image%2015.png"><img style="width:681.984375px" src="image%2015.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-806f-9150-db0240a291dd" class="numbered-list numbered-list-digits-2" start="19"><li>Create a new LISTENER for Oracle Database using port default 1521 using Oracle Net Configuration Assistant (netca)<div style="display:contents" dir="auto"><pre id="295480ce-f2f8-8069-8d3a-f315e54eda36" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[oracle@ora11bms database]$ netca</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><p id="295480ce-f2f8-8075-aeb8-e37a40c6eb09" class="">35. Choose “Listener configuration” and press Next to contiune.<div class="indented"><div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-80bd-ad0a-f33a1490bcea" class="image"><a href="image%2016.png"><img style="width:430.984375px" src="image%2016.png"/></a></figure></div></div></p></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-8066-9a71-e116494b416f" class="numbered-list numbered-list-digits-2" start="36"><li>Select Add to create a new LISTENER<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-80a9-874b-ef78a1f8e6c2" class="image"><a href="image%2017.png"><img style="width:428.96875px" src="image%2017.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-8037-a06e-d29f00f0e5bc" class="numbered-list numbered-list-digits-2" start="37"><li>Input the “Listener Name”<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-80d8-be08-fe8fe0a935d1" class="image"><a href="image%2018.png"><img style="width:428.984375px" src="image%2018.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-80bc-a0d1-f9dab229ae9f" class="numbered-list numbered-list-digits-2" start="38"><li>Press Next button to continue.<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-8000-b268-c604f312af70" class="image"><a href="image%2019.png"><img style="width:427.984375px" src="image%2019.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-80d3-8d17-cd349b7b1368" class="numbered-list numbered-list-digits-2" start="39"><li>Use default port 1521<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-80ad-aad6-e7aac5ea173a" class="image"><a href="image%2020.png"><img style="width:428.96875px" src="image%2020.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-8038-b9d4-dda48ea7c784" class="numbered-list numbered-list-digits-2" start="40"><li>Select No<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-802e-9941-e3d9dd9045cb" class="image"><a href="image%2021.png"><img style="width:427.984375px" src="image%2021.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-80fe-a9ad-fba76ba2f8f7" class="numbered-list numbered-list-digits-2" start="41"><li>Press Next and Finish button to finish the configuration<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-8074-bdff-dbc5db524c63" class="image"><a href="image%2022.png"><img style="width:425.984375px" src="image%2022.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-8042-8dc7-d2b6441575b9" class="image"><a href="image%2023.png"><img style="width:428.984375px" src="image%2023.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-8046-a757-feb05131ab0a" class="numbered-list numbered-list-digits-2" start="42"><li>Create a new database oracle using Database Configuration Assistant (dbca)<div style="display:contents" dir="auto"><pre id="295480ce-f2f8-807a-aba2-f4f206f25bee" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[oracle@ora11bms database]$ dbca</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-804d-8182-cfd903fcfbb3" class="numbered-list numbered-list-digits-2" start="43"><li>Press Next<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-8058-bd19-c4e3c2060db5" class="image"><a href="image%2024.png"><img style="width:540.984375px" src="image%2024.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-8025-ad00-f490f37bee7b" class="numbered-list numbered-list-digits-2" start="44"><li>Select “Create a Database” then press Next button to continue.<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-80e6-ab85-c0798dd20d2d" class="image"><a href="image%2025.png"><img style="width:539.96875px" src="image%2025.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-80c0-b5af-e442db2c4564" class="numbered-list numbered-list-digits-2" start="45"><li>Select “General Purpose or Transaction Processing” then press Next to continue.<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-802d-b9cf-df6aef5d3258" class="image"><a href="image%2026.png"><img style="width:538.96875px" src="image%2026.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-80d0-8d6b-ecb23d47422d" class="numbered-list numbered-list-digits-2" start="46"><li>Input Global Database Name using domain and SID<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-80a2-a746-dc78d87b1964" class="image"><a href="image%2027.png"><img style="width:540.984375px" src="image%2027.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="294480ce-f2f8-80d1-8bd9-f0c9a7828cda" class="numbered-list numbered-list-digits-2" start="47"><li>Uncheck “Configure Enterprise Manager”<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-8097-b3fb-ff2f271d1c28" class="image"><a href="image%2028.png"><img style="width:541.96875px" src="image%2028.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-8001-bff2-e2c5675c7c8a" class="numbered-list numbered-list-digits-2" start="48"><li>Use the same administrative password for all accounts and input the password then press Next button to continue.<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-8079-8aad-f152790b8bca" class="image"><a href="image%2029.png"><img style="width:541.984375px" src="image%2029.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-801e-9e46-c6970b7bbaee" class="numbered-list numbered-list-digits-2" start="49"><li>Press Next button<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-8036-b67b-c6a71696e5a8" class="image"><a href="image%2030.png"><img style="width:576px" src="image%2030.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-804e-a590-e35c1b8049c3" class="numbered-list numbered-list-digits-2" start="50"><li>Check “Specify Flash Recovery Area” and input the value. then press Next Button.<div style="display:contents" dir="ltr"><figure id="296480ce-f2f8-804a-a8bd-ce6dbd76bde7" class="image"><a href="image%2031.png"><img style="width:576px" src="image%2031.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-8003-8bb2-d9f494381323" class="numbered-list numbered-list-digits-2" start="51"><li>Press Next button.<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-80cc-865f-e985efa6f087" class="image"><a href="image%2032.png"><img style="width:541.96875px" src="image%2032.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-80c4-a5b3-cd52ab49d00d" class="numbered-list numbered-list-digits-2" start="52"><li>Choose Typical and use 60% of memory server for oracle and uncheck “Use Automatic Memory Management”.<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-8010-86c8-d561c9fca6e1" class="image"><a href="image%2033.png"><img style="width:541.96875px" src="image%2033.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-80dc-98c9-de1b7433c3bf" class="numbered-list numbered-list-digits-2" start="53"><li>Change the parameter process, open_cursors and sessions<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-804f-b4ba-c7cad3d08b20" class="image"><a href="image%2034.png"><img style="width:540.96875px" src="image%2034.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-8007-b9ec-d7ef89364151" class="image"><a href="image%2035.png"><img style="width:538.984375px" src="image%2035.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="295480ce-f2f8-80f1-bdf2-f8dcaadbca1b" class="">set the open_cursors to 1000, process to 900 and sessions to 995, then press Next button to continue.</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-80cb-878c-f0430e8a820d" class="numbered-list numbered-list-digits-2" start="54"><li>Directory of ControlFiles using diference hardisk, see at bellow (control01.ctl using /{ORACLE_BASE} and control02.ctl using /04)<div style="display:contents" dir="ltr"><figure id="296480ce-f2f8-8099-b0f0-dd3a4bb6195f" class="image"><a href="image%2036.png"><img style="width:576px" src="image%2036.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-801b-a0b5-e244a5c9d188" class="numbered-list numbered-list-digits-2" start="55"><li>Set Maximum Datafiles to 900, and press Next button to continue.<div style="display:contents" dir="ltr"><figure id="296480ce-f2f8-805c-932b-e87706ef47ad" class="image"><a href="image%2037.png"><img style="width:681.984375px" src="image%2037.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-80b8-9bd4-ff979c12e513" class="numbered-list numbered-list-digits-2" start="56"><li>Change File Directory for Data Files to /u02/oradata/{DB_UNIQUE_NAME}/<div style="display:contents" dir="ltr"><figure id="296480ce-f2f8-8060-ac3e-fdd457c17f3c" class="image"><a href="image%2038.png"><img style="width:681.984375px" src="image%2038.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-806b-bd75-d6e580dd133a" class="numbered-list numbered-list-digits-2" start="57"><li>Resize redo log files to 2GB and use 2 hardisk in /u02 and /u03 for redo log files<div style="display:contents" dir="ltr"><figure id="296480ce-f2f8-803d-bc37-d131414b63c9" class="image"><a href="image%2039.png"><img style="width:681.96875px" src="image%2039.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="296480ce-f2f8-8043-9584-e3ec194ef9c8" class="image"><a href="image%2040.png"><img style="width:681.96875px" src="image%2040.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="296480ce-f2f8-80b1-8eb9-e6ae2cfe88ed" class="image"><a href="image%2041.png"><img style="width:681.984375px" src="image%2041.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="296480ce-f2f8-801d-83c0-ecfc0b631e30" class="image"><a href="image%2042.png"><img style="width:682px" src="image%2042.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="296480ce-f2f8-8072-a5b7-f179ef800ee6" class="image"><a href="image%2043.png"><img style="width:681.984375px" src="image%2043.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-80e4-b20d-eafe5391fdbe" class="numbered-list numbered-list-digits-2" start="58"><li>Check “Create Database” and press Finish button to continue.<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-80bf-9383-f088f7dfbe91" class="image"><a href="image%2044.png"><img style="width:542.984375px" src="image%2044.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-80d1-b2e9-de8c09ddf577" class="numbered-list numbered-list-digits-2" start="59"><li>Press OK to continue.<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-8022-b318-ea962cb4fa83" class="image"><a href="image%2045.png"><img style="width:543.984375px" src="image%2045.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-80a1-ae6b-da9edd4ef45a" class="numbered-list numbered-list-digits-2" start="60"><li>Installation Oracle Database 11g is in progress<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-800b-8b10-e591483577b8" class="image"><a href="image%2046.png"><img style="width:539.96875px" src="image%2046.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-8053-9104-e2390741982e" class="numbered-list numbered-list-digits-2" start="61"><li>Press Exit to close the installation<div style="display:contents" dir="ltr"><figure id="295480ce-f2f8-80c2-b345-dd65fc9bad8c" class="image"><a href="image%2047.png"><img style="width:548.984375px" src="image%2047.png"/></a></figure></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-809b-89d4-e0735d43b47c" class="numbered-list numbered-list-digits-2" start="62"><li>Check the listener status<div style="display:contents" dir="auto"><pre id="295480ce-f2f8-80c7-a3c7-fbf672d05347" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[oracle@oralinux6 ~]$ lsnrctl status
+
+LSNRCTL for Linux: Version 11.2.0.1.0 - Production on 23-OCT-2025 15:46:22
+
+Copyright (c) 1991, 2009, Oracle.  All rights reserved.
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=oralinux6.infotech)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR for Linux: Version 11.2.0.1.0 - Production
+Start Date                23-OCT-2025 15:09:18
+Uptime                    0 days 0 hr. 37 min. 4 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /u01/app/oracle/product/11g/dbhome_1/network/admin/listener.ora
+Listener Log File         /u01/app/oracle/diag/tnslsnr/ora11bms/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=oralinux6.infotech)(PORT=1521)))
+Services Summary...
+Service &quot;gen21qc.infotech&quot; has 1 instance(s).
+  Instance &quot;gen21qc&quot;, status READY, has 1 handler(s) for this service...
+Service &quot;gen21qcXDB.infotech&quot; has 1 instance(s).
+  Instance &quot;gen21qc&quot;, status READY, has 1 handler(s) for this service...
+The command completed successfully</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="295480ce-f2f8-802c-b1c0-ef239219111e" class="numbered-list numbered-list-digits-2" start="63"><li>Try to connect database using sqlplus as sysdba<div style="display:contents" dir="auto"><pre id="295480ce-f2f8-80c4-92fc-df18a16e5ca5" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">[oracle@oralinux6 ~]$ export ORACLE_SID=gen21qc
+[oracle@oralinux6 ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 11.2.0.1.0 Production on Thu Oct 23 15:47:17 2025
+
+Copyright (c) 1982, 2009, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 11g Release 11.2.0.1.0 - 64bit Production
+SQL&gt; select * from dual;
+
+D
+-
+X</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><hr id="296480ce-f2f8-80b6-8949-f165d29acb42"/></div><div style="display:contents" dir="auto"><h2 id="296480ce-f2f8-800c-a165-f58dac50d03b" class=""><strong>C. Post Installation Oracle Database 11g on Oracle Linux 6</strong></h2></div><div style="display:contents" dir="auto"><p id="296480ce-f2f8-80fa-977b-f2258e962c48" class="">On Oracle Linux 6 (which uses <strong>SysV init</strong>, not systemd), you can configure Oracle Database 11g to start automatically at boot by:<div class="indented"><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-80fa-ab29-e0d19a2d70c2" class="numbered-list" start="1"><li>Enabling the database in <code>/etc/oratab</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-8080-ae3f-e66de47b8e0b" class="numbered-list" start="2"><li>Creating an init script <code>/etc/init.d/oracle</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-80ff-aa97-f14b34d98a6b" class="numbered-list" start="3"><li>Registering it with <code>chkconfig</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-8026-adc6-c2052ac2433d" class="numbered-list" start="4"><li>Testing with <code>service oracle start|stop|status</code></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-8094-9019-c1f0a36a0bef" class="numbered-list" start="5"><li>Rebooting to verify automatic startup</li></ol></div></div></p></div><div style="display:contents" dir="auto"><hr id="296480ce-f2f8-8076-85a2-f4bf4337730d"/></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-8050-889a-dfcab7927b84" class="numbered-list" start="1"><li>Edit /etc/oratab<div style="display:contents" dir="auto"><p id="296480ce-f2f8-80f3-878b-ff9245089605" class="">Open the file <code>/etc/oratab</code> and ensure your entry looks like this:</p></div><div style="display:contents" dir="auto"><pre id="296480ce-f2f8-802d-a6c4-f275dc7bbe5a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ORCL:/u01/app/oracle/product/11.2.0/dbhome_1:Y</code></pre></div><div style="display:contents" dir="auto"><p id="296480ce-f2f8-8063-822c-dc0d8bc0c0d1" class="">The <strong>last field must be </strong><code><strong>Y</strong></code> to allow automatic startup using <code>dbstart</code>.</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-8048-a154-dbb57401ef7d" class="numbered-list" start="2"><li>Create the init script /etc/init.d/oracle<div style="display:contents" dir="auto"><p id="296480ce-f2f8-809f-b86c-c102cb46b11e" class="">Create a new file <code>/etc/init.d/oracle</code> and paste the following script.</p></div><div style="display:contents" dir="auto"><p id="296480ce-f2f8-8028-813e-fcc721db62ca" class="">(Adjust <code>ORACLE_OWNER</code> and <code>ORACLE_HOME</code> as needed.)</p></div><div style="display:contents" dir="auto"><pre id="296480ce-f2f8-8071-b694-d92a5f45a4b0" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">#!/bin/sh
+#
+# oracle  Startup script for Oracle DB (uses dbstart/dbshut)
+#
+# chkconfig: 345 99 10
+# description: Start and stop Oracle Database using /etc/oratab and dbstart/dbshut
+#
+### BEGIN INIT INFO
+# Provides: oracle
+# Required-Start: $local_fs $network $syslog
+# Required-Stop:  $local_fs $network $syslog
+# Default-Start:  3 4 5
+# Default-Stop:   0 1 2 6
+# Short-Description: Start Oracle DB
+### END INIT INFO
+
+ORACLE_OWNER=oracle
+# Optionally hardcode ORACLE_HOME
+# ORACLE_HOME=/u01/app/oracle/product/11g/dbhome_1
+
+export PATH=/usr/sbin:/usr/bin:/sbin:/bin
+
+DBSTART_CMD=&quot;dbstart&quot;
+DBSHUT_CMD=&quot;dbshut&quot;
+LSNRCTL=/u01/app/oracle/product/11g/dbhome_1/bin/lsnrctl
+
+start() {
+  echo &quot;Starting Oracle databases (using dbstart)...&quot;
+  su - ${ORACLE_OWNER} -c &quot;export ORACLE_HOME=\$(awk -F: &#x27;/^[^#]/ { if (\$3==\&quot;Y\&quot; &amp;&amp; \$1 !~ /^\\+/) { print \$2; exit } }&#x27; /etc/oratab) ; ${DBSTART_CMD} \$ORACLE_HOME&quot;
+  # Uncomment if you want to explicitly start listener:
+  # su - ${ORACLE_OWNER} -c &quot;${LSNRCTL} start&quot;
+  echo &quot;Startup complete.&quot;
+}
+
+stop() {
+  echo &quot;Stopping Oracle databases (using dbshut)...&quot;
+  su - ${ORACLE_OWNER} -c &quot;export ORACLE_HOME=\$(awk -F: &#x27;/^[^#]/ { if (\$3==\&quot;Y\&quot; &amp;&amp; \$1 !~ /^\\+/) { print \$2; exit } }&#x27; /etc/oratab) ; ${DBSHUT_CMD} \$ORACLE_HOME&quot;
+  # Uncomment to stop listener explicitly:
+  # su - ${ORACLE_OWNER} -c &quot;${LSNRCTL} stop&quot;
+  echo &quot;Shutdown complete.&quot;
+}
+
+status() {
+  echo &quot;Checking Oracle processes...&quot;
+  ps -ef | grep pmon | grep -v grep
+}
+
+case &quot;$1&quot; in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    sleep 2
+    start
+    ;;
+  status)
+    status
+    ;;
+  *)
+    echo &quot;Usage: $0 {start|stop|restart|status}&quot;
+    exit 1
+esac
+
+exit 0</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-807d-82e9-d443146f0055" class="numbered-list" start="3"><li>Set permissions and enable the service<div style="display:contents" dir="auto"><p id="296480ce-f2f8-800f-aa6e-d0527dd9987b" class="">Run these commands as <code>root</code>:</p></div><div style="display:contents" dir="auto"><pre id="296480ce-f2f8-8035-99cf-cfa5f1d8f1bd" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">chmod 755 /etc/init.d/oracle
+chkconfig --add oracle
+chkconfig oracle on
+chkconfig --list oracle</code></pre></div><div style="display:contents" dir="auto"><p id="296480ce-f2f8-8053-828e-e5c664e68f22" class="">Now test it:</p></div><div style="display:contents" dir="auto"><pre id="296480ce-f2f8-801b-ba3e-f45a6e401724" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">service oracle start
+ps -ef | grep pmon | grep -v grep
+su - oracle -c &quot;lsnrctl status&quot;</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-804b-bf2f-f2a2c0e55c91" class="numbered-list" start="4"><li>Test automatic startup<div style="display:contents" dir="auto"><p id="296480ce-f2f8-8025-aeda-fce5ee7bcc07" class="">Reboot your server:</p></div><div style="display:contents" dir="auto"><pre id="296480ce-f2f8-8095-9f25-ef3453734bcd" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">reboot</code></pre></div><div style="display:contents" dir="auto"><p id="296480ce-f2f8-8042-99ac-ee31a752bd86" class="">After the system boots, check if the database started automatically:</p></div><div style="display:contents" dir="auto"><pre id="296480ce-f2f8-80fb-ac6e-c7343c115b3d" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ps -ef | grep pmon | grep -v grep
+su - oracle -c &quot;lsnrctl status&quot;</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-805f-87aa-fa4a8d7f5a2c" class="numbered-list" start="5"><li>Optional – Handle multiple ORACLE_HOME entries<div style="display:contents" dir="auto"><p id="296480ce-f2f8-8068-85b7-d21c052bab24" class="">If you have more than one database entry with <code>Y</code> in <code>/etc/oratab</code>, modify the script to loop through them:</p></div><div style="display:contents" dir="auto"><pre id="296480ce-f2f8-80a1-b693-eaffa81187d5" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">for OH in $(awk -F: &#x27;/^[^#]/ &amp;&amp; $3==&quot;Y&quot; {print $2}&#x27; /etc/oratab); do
+  su - oracle -c &quot;ORACLE_HOME=$OH; PATH=\$ORACLE_HOME/bin:\$PATH; dbstart \$ORACLE_HOME&quot;
+done</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-8030-904c-c089138d868b" class="numbered-list" start="6"><li>Quick alternative (crontab method)<div style="display:contents" dir="auto"><p id="296480ce-f2f8-8000-b544-da471c7ae05f" class="">If you prefer a very simple method, you can add this line to the Oracle user’s crontab (<code>crontab -e</code>):</p></div><div style="display:contents" dir="auto"><pre id="296480ce-f2f8-8041-996f-d271cff37e26" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">@reboot /u01/app/oracle/product/11g/dbhome_1/bin/dbstart /u01/app/oracle/product/11g/dbhome_1</code></pre></div><div style="display:contents" dir="auto"><p id="296480ce-f2f8-80ec-bbff-de3d518e9261" class="">However, <strong>this is not recommended for production</strong> because it doesn’t integrate cleanly with system startup and shutdown order.</p></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="296480ce-f2f8-80d4-bd7e-c34a5e75a231" class="numbered-list" start="7"><li>Troubleshooting Tips<div style="display:contents" dir="ltr"><table id="296480ce-f2f8-8078-aaf9-f04f0b3a7717" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="296480ce-f2f8-80ca-909c-e3ae6b1db32d"><th id="mB:m" class="simple-table-header-color simple-table-header" style="width:231.5px">Problem</th><th id="octs" class="simple-table-header-color simple-table-header" style="width:377.5px">Solution</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="296480ce-f2f8-80b8-889d-ce4abe701a62"><td id="mB:m" class="" style="width:231.5px"><code>dbstart</code> says “ORACLE_HOME not set”</td><td id="octs" class="" style="width:377.5px">Ensure <code>/etc/oratab</code> entry is not commented and ends with <code>:Y</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="296480ce-f2f8-80db-98c6-d165e61398c4"><td id="mB:m" class="" style="width:231.5px">Database not starting</td><td id="octs" class="" style="width:377.5px">Check <code>/etc/oratab</code>, <code>.bash_profile</code>, and <code>$ORACLE_HOME/bin/dbstart</code> permissions</td></tr></div><div style="display:contents" dir="ltr"><tr id="296480ce-f2f8-80df-96e4-c4e091254b3c"><td id="mB:m" class="" style="width:231.5px">Listener not starting</td><td id="octs" class="" style="width:377.5px">Uncomment the <code>lsnrctl start</code> line in the script</td></tr></div><div style="display:contents" dir="ltr"><tr id="296480ce-f2f8-80df-bc6e-ced4ed7adb3b"><td id="mB:m" class="" style="width:231.5px">SELinux blocks startup</td><td id="octs" class="" style="width:377.5px">Temporarily set SELinux to permissive (<code>setenforce 0</code>) to test, then adjust policy properly</td></tr></div><div style="display:contents" dir="ltr"><tr id="296480ce-f2f8-8026-aa59-e07d973eec2e"><td id="mB:m" class="" style="width:231.5px">Logs</td><td id="octs" class="" style="width:377.5px">Check <code>/var/log/messages</code> and <code>/home/oracle/.bash_profile</code> for environment setup issues</td></tr></div></tbody></table></div></li></ol></div><div style="display:contents" dir="auto"><hr id="296480ce-f2f8-80ca-9942-c78abcffb67b"/></div><div style="display:contents" dir="auto"><p id="296480ce-f2f8-8068-b4bb-ea702be2fe89" class="">End of Installation and Configuration —</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
