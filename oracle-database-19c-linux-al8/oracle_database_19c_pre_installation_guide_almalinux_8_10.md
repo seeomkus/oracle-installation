@@ -1233,8 +1233,8 @@ The AlmaLinux 8.10 server is now fully prepared for Oracle Database 19c installa
 |-------|----------|--------|-------------|
 | **1** | [AlmaLinux 8.10 OS Installation Guide](https://github.com/seeomkus/linux-installation/blob/main/almalinux-8-for-oracle-database/almalinux_8_10_os_installation_guide.md) | ✅ Complete | Operating system installed, network configured, hostname set |
 | **2** | **Pre-Installation Guide** *(this document)* | ✅ Complete | OS packages, kernel, storage, Oracle user, VNC Server configured |
-| **3** | [Oracle Database 19c Installation Guide](oracle_database_19c_installation_guide_almalinux_8_10.md) | ⬜ Next | Upload installer ZIP to `/u04/installer/`, run OUI with Release Update, netca listener, DBCA database creation |
-| **4** | [Oracle Database 19c Post-Installation Guide](oracle_database_19c_post_installation_guide_almalinux_8_10.md) | ⬜ Pending | Auto-start via systemd, PDB persistence, EM Express verification, initial RMAN backup |
+| **3** | [Oracle Database 19c Installation Guide](oracle_database_19c_installation_guide_almalinux_8_10.md) | ✅ Complete | Upload installer ZIP to `/u04/installer/`, run OUI with Release Update, netca listener, DBCA database creation |
+| **4** | [Oracle Database 19c Post-Installation Guide](oracle_database_19c_post_installation_guide_almalinux_8_10.md) | ✅ Complete | Auto-start via systemd, PDB persistence, EM Express verification, initial RMAN backup |
 
 **Before running the Oracle installer:**
 
