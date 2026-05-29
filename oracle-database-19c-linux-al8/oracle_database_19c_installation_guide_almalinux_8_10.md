@@ -1017,7 +1017,7 @@ Oracle Database 19c is now installed and the initial database is created. Procee
 | **1** | [AlmaLinux 8.10 OS Installation Guide](https://github.com/seeomkus/linux-installation/blob/main/almalinux-8-for-oracle-database/almalinux_8_10_os_installation_guide.md) | ✅ Complete | Operating system installation |
 | **2** | [Oracle Database 19c Pre-Installation Guide](oracle_database_19c_pre_installation_guide_almalinux_8_10.md) | ✅ Complete | OS pre-configuration |
 | **3** | **Oracle Database 19c Installation Guide** *(this document)* | ✅ Complete | Software installation and database creation |
-| **4** | Post-Installation Guide | ⬜ Next | Validate installation, configure startup automation, apply initial tuning |
+| **4** | [Oracle Database 19c Post-Installation Guide](oracle_database_19c_post_installation_guide_almalinux_8_10.md) | ⬜ Next | Auto-start via systemd, PDB persistence, EM Express verification, initial RMAN backup |
 
 **Recommended post-installation tasks:**
 

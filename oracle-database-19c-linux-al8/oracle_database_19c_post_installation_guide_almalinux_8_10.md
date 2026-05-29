@@ -707,8 +707,8 @@ The Oracle Database 19c installation and post-installation configuration is now 
 | Stage | Document | Status | Description |
 |-------|----------|--------|-------------|
 | **1** | [AlmaLinux 8.10 OS Installation Guide](https://github.com/seeomkus/linux-installation/blob/main/almalinux-8-for-oracle-database/almalinux_8_10_os_installation_guide.md) | ✅ Complete | Operating system installation |
-| **2** | [Pre-Installation Guide](oracle_database_19c_pre_installation_guide_almalinux_8_10.md) | ✅ Complete | OS preparation |
-| **3** | [Installation Guide](oracle_database_19c_installation_guide_almalinux_8_10.md) | ✅ Complete | Software + database creation |
+| **2** | [Oracle Database 19c Pre-Installation Guide](oracle_database_19c_pre_installation_guide_almalinux_8_10.md) | ✅ Complete | OS preparation |
+| **3** | [Oracle Database 19c Installation Guide](oracle_database_19c_installation_guide_almalinux_8_10.md) | ✅ Complete | Software + database creation |
 | **4** | **Post-Installation Guide** *(this document)* | ✅ Complete | Auto-start, PDB persistence, verification |
 
 **Recommended ongoing tasks:**
