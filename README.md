@@ -21,7 +21,8 @@ A collection of Oracle Database installation guides across various platforms and
 
 | Stage | Guide | Description |
 |-------|-------|-------------|
-| — | [Oracle Database 11g R2 Installation on Oracle Linux 6](oracle-database-11g-linux-ol6/oracle-database-11g-installation-linux-ol6.md) | Complete installation guide for Oracle Database 11g Release 2 (11.2.0.1) on Oracle Linux 6 |
+| Stage 1 | [Oracle Linux 6.10 OS Installation Guide](https://github.com/seeomkus/linux-installation/blob/main/oraclelinux-6-for-oracle-database/oraclelinux_6_10_os_installation_guide.md) | Oracle Linux 6.10 operating system installation |
+| Stage 2 | [Oracle Database 11g R2 Installation on Oracle Linux 6](oracle-database-11g-linux-ol6/oracle-database-11g-installation-linux-ol6.md) | Complete installation guide for Oracle Database 11g Release 2 (11.2.0.1) on Oracle Linux 6 |
 
 ---
 

@@ -2,6 +2,17 @@
 
 ---
 
+## Prerequisites
+
+Before proceeding with this guide, ensure that Oracle Linux 6.10 has been installed and configured on the target server.
+
+| Stage | Guide | Status |
+|-------|-------|--------|
+| **1** | [Oracle Linux 6.10 OS Installation Guide](https://github.com/seeomkus/linux-installation/blob/main/oraclelinux-6-for-oracle-database/oraclelinux_6_10_os_installation_guide.md) | ✅ Complete — prerequisite for this guide |
+| **2** | **Oracle Database 11g R2 Installation** *(this document)* | ⬜ Current |
+
+---
+
 ## SOURCE ARTICLE AND DOWNLOAD FILE:
 
 1. Installation OS Oracle Linux 6.10:
