@@ -530,7 +530,7 @@ Complete the prerequisites using the Automatic Setup method described below. The
    ```bash
    [root@oradb11g ~]# mkfs.xfs /dev/sdb
    -bash: mkfs.xfs: command not found
-   [root@oradb11g ~]# yum -y install mkfs
+   [root@oradb11g ~]# yum -y install *mkfs*
    [root@oradb11g ~]# mkfs.xfs -f /dev/sdb
    meta-data=/dev/sdb               isize=256    agcount=4, agsize=32768000 blks
             =                       sectsz=512   attr=2, projid32bit=1
