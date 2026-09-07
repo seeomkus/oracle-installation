@@ -1370,7 +1370,7 @@ The Oracle Linux 9.6 server is now fully prepared for Oracle Database 26ai insta
 | **1** | [Oracle Linux 9.6 OS Installation Guide](https://github.com/seeomkus/linux-installation/blob/main/oraclelinux-9-for-oracle-database/oraclelinux_9_6_os_installation_guide.md) | ✅ Complete | Operating system installed, network configured, hostname set |
 | **2** | **Pre-Installation Guide** *(this document)* | ✅ Complete | Network/hostname verification, OS packages, kernel, storage, Oracle user, VNC Server configured |
 | **3** | [Oracle Database 26ai Installation Guide](oracle_database_26ai_installation_guide_oraclelinux_9_6.md) | ✅ Complete | Upload installer archive to `/u04/installer/`, run OUI, netca listener, DBCA database creation |
-| **4** | [Oracle Database 26ai Post-Installation Guide](oracle_database_26ai_post_installation_guide_oraclelinux_9_6.md) | ⬜ Next | Auto-start via systemd, PDB persistence, initial RMAN backup |
+| **4** | [Oracle Database 26ai Post-Installation Guide](oracle_database_26ai_post_installation_guide_oraclelinux_9_6.md) | ✅ Complete | Auto-start via systemd, PDB persistence, initial RMAN backup |
 
 **Before running the Oracle installer:**
 
