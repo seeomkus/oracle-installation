@@ -47,6 +47,10 @@
 18. [Summary of Pre-Installation Configurations](#summary-of-pre-installation-configurations)
 19. [Next Steps](#next-steps)
 20. [References](#references)
+    - [Oracle Database 26ai Installer — How to Download](#1-oracle-database-26ai-installer--how-to-download)
+    - [Oracle Database 26ai — Official Documentation](#2-oracle-database-26ai--official-documentation)
+    - [Oracle Linux 9 — Related Documentation](#3-oracle-linux-9--related-documentation)
+    - [Supporting Tools](#4-supporting-tools)
 
 ---
 
@@ -1398,7 +1402,134 @@ The Oracle Linux 9.6 server is now fully prepared for Oracle Database 26ai insta
 
 ## References
 
-### 1. Oracle Database 26ai — Official Documentation
+### 1. Oracle Database 26ai Installer — How to Download
+
+Oracle Database software is distributed free of charge for development, testing, and learning purposes under the Oracle Free Use Terms and Conditions. A **free Oracle account** is required to access the download portal.
+
+#### 1.1 Create a Free Oracle Account
+
+If you do not already have an Oracle account, register at no cost:
+
+| Resource | URL |
+|----------|-----|
+| **Oracle Account Registration** | https://profile.oracle.com/myprofile/account/create-account.jspx |
+| **Oracle Sign-In Page** | https://login.oracle.com |
+
+> Registration requires a valid email address. No credit card is needed. The same account is used for Oracle Technology Network (OTN), Oracle Support (MOS), Oracle eDelivery, and the Oracle download portal.
+
+---
+
+#### 1.2 Oracle Database 26ai Installer — Direct Download
+
+| Resource | URL |
+|----------|-----|
+| **Oracle Database Software Downloads (main page)** | https://www.oracle.com/database/technologies/oracle-database-software-downloads.html |
+| **Oracle Database 26ai for Linux x86-64 (direct listing)** | https://www.oracle.com/database/technologies/oracle26ai-linux-downloads.html |
+
+**Download steps:**
+
+1. Go to the Oracle Database 26ai for Linux x86-64 downloads page above
+2. Sign in with your Oracle account when prompted
+3. Scroll to the **"Oracle Database 26ai"** section
+4. Select the **"Linux x86-64"** platform
+5. Accept the Oracle License Agreement checkbox
+6. Click the download link for the installer ZIP file
+
+---
+
+#### 1.3 Installer File Reference
+
+| Item | Detail |
+|------|--------|
+| **Filename** | `LINUX.X64_2326100_db_home.zip` |
+| **Version** | Oracle Database 26ai (23.26.1.0.0) |
+| **Platform** | Linux x86-64 |
+| **Approximate Size** | ~2.3 GB |
+| **Target Directory** | `/u04/installer/` (on the database server) |
+
+---
+
+#### 1.4 Verify the Installer Checksum
+
+After downloading, always verify the SHA256 checksum to ensure the file was not corrupted during transfer and is an authentic Oracle distribution.
+
+Oracle publishes the SHA256 checksum alongside each download on the download page. Compare it against the locally computed hash:
+
+```bash
+# On Linux / macOS (run on the machine where you downloaded the file)
+sha256sum LINUX.X64_2326100_db_home.zip
+
+# On Windows (PowerShell)
+Get-FileHash LINUX.X64_2326100_db_home.zip -Algorithm SHA256
+```
+
+Compare the output hash value with the checksum listed on the Oracle download page. They must match exactly before transferring the file to the server.
+
+---
+
+#### 1.5 Transfer the Installer to the Server
+
+After downloading on your client machine, upload the ZIP file to the installer staging directory on the database server:
+
+**Using WinSCP (Windows GUI):**
+
+| Setting | Value |
+|---------|-------|
+| Protocol | SFTP |
+| Host name | `192.168.159.145` |
+| Port | 22 |
+| User name | `root` |
+| Remote path | `/u04/installer/` |
+
+**Using SCP from a Linux/macOS terminal:**
+
+```bash
+scp LINUX.X64_2326100_db_home.zip root@192.168.159.145:/u04/installer/
+```
+
+**Using rsync for large files (resumes if interrupted):**
+
+```bash
+rsync -avP LINUX.X64_2326100_db_home.zip root@192.168.159.145:/u04/installer/
+```
+
+After upload, set correct ownership on the server:
+
+```bash
+# chown oracle:oinstall /u04/installer/LINUX.X64_2326100_db_home.zip
+# ls -lh /u04/installer/
+```
+
+---
+
+#### 1.6 Alternative Download — Oracle Software Delivery Cloud (eDelivery)
+
+Oracle eDelivery provides an alternative download channel, particularly useful when the direct download page does not list a specific version.
+
+| Resource | URL |
+|----------|-----|
+| **Oracle Software Delivery Cloud (eDelivery)** | https://edelivery.oracle.com |
+
+**Steps:**
+1. Sign in with your Oracle account
+2. Search for **"Oracle Database"**
+3. Select **"Oracle Database 26ai"** and **"Linux x86-64"** as the platform
+4. Add to cart and proceed to download
+
+---
+
+#### 1.7 Oracle Technology Network (OTN) License
+
+The Oracle Database software downloaded from OTN is licensed under the **Oracle Free Use Terms and Conditions (FUTC)**. This license permits:
+- Development and testing use
+- Evaluation and learning
+- Non-production deployments
+
+For production deployments, a licensed Oracle Database subscription (or an Oracle Cloud subscription) is required. Refer to the Oracle licensing terms on the download page for full details.
+
+---
+
+### 2. Oracle Database 26ai — Official Documentation
 
 | Document | URL |
 |----------|-----|
@@ -1407,7 +1538,7 @@ The Oracle Linux 9.6 server is now fully prepared for Oracle Database 26ai insta
 | **Oracle Database Software Downloads** | https://www.oracle.com/database/technologies/oracle-database-software-downloads.html |
 | **My Oracle Support (MOS)** | https://support.oracle.com |
 
-### 2. Oracle Linux 9 — Related Documentation
+### 3. Oracle Linux 9 — Related Documentation
 
 | Document | URL |
 |----------|-----|
@@ -1416,7 +1547,7 @@ The Oracle Linux 9.6 server is now fully prepared for Oracle Database 26ai insta
 | **Oracle Linux SELinux Guide** | https://docs.oracle.com/en/operating-systems/oracle-linux/selinux/ |
 | **Oracle Linux Downloads** | https://yum.oracle.com/oracle-linux-isos.html |
 
-### 3. Supporting Tools
+### 4. Supporting Tools
 
 | Tool | Purpose | Download URL |
 |------|---------|-------------|
