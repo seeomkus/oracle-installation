@@ -265,7 +265,7 @@ This screen maps each Oracle system privilege to an OS group.
 | Encryption Key Management administrative (OSKMDBA) | `kmdba` |
 | Real Application Cluster administrative (OSRACDBA) | `racdba` |
 
-> **Note:** These groups only need to exist on the OS if selected here; this guide's pre-installation only created `oinstall`, `dba`, and `oper` (see the Pre-Installation Guide, Part 7). Leave the unused privilege dropdowns at their defaults — Oracle only requires the groups actually referenced (`dba`, `oper`) to exist.
+> **Note:** These groups only need to exist on the OS if selected here; this guide's pre-installation only created `oinstall`, `dba`, and `oper` (see the [Pre-Installation Guide, Part 7](oracle_database_26ai_pre_installation_guide_oraclelinux_9_6.md#part-7--create-oracle-os-groups-and-user)). Leave the unused privilege dropdowns at their defaults — Oracle only requires the groups actually referenced (`dba`, `oper`) to exist.
 
 Click **"Next"**.
 
