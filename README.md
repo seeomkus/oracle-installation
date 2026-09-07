@@ -6,6 +6,17 @@ A collection of Oracle Database installation guides across various platforms and
 
 ## Guide List
 
+### Oracle Database 26ai on Oracle Linux 9.6
+
+| Stage | Guide | Description |
+|-------|-------|-------------|
+| Stage 1 | [Oracle Linux 9.6 OS Installation Guide](https://github.com/seeomkus/linux-installation/blob/main/oraclelinux-9-for-oracle-database/oraclelinux_9_6_os_installation_guide.md) | Oracle Linux 9.6 operating system installation on VMware Workstation 16 |
+| Stage 2 | [Oracle Database 26ai Pre-Installation Guide](oracle-database-26ai-linux-ol9/oracle_database_26ai_pre_installation_guide_oraclelinux_9_6.md) | Hostname/network verification, preinstallation package, kernel parameters, storage, Oracle user, and VNC Server setup |
+| Stage 3 | [Oracle Database 26ai Installation Guide](oracle-database-26ai-linux-ol9/oracle_database_26ai_installation_guide_oraclelinux_9_6.md) | Oracle Universal Installer (OUI), netca listener, DBCA database creation |
+| Stage 4 | [Oracle Database 26ai Post-Installation Guide](oracle-database-26ai-linux-ol9/oracle_database_26ai_post_installation_guide_oraclelinux_9_6.md) | Auto-start configuration via systemd, PDB persistence, archiving, and initial RMAN backup |
+
+---
+
 ### Oracle Database 19c on AlmaLinux 8.10
 
 | Stage | Guide | Description |
@@ -30,6 +41,15 @@ A collection of Oracle Database installation guides across various platforms and
 
 ```
 oracle-installation/
+├── oracle-database-26ai-linux-ol9/
+│   ├── oracle_database_26ai_pre_installation_guide_oraclelinux_9_6.md
+│   ├── oracle_database_26ai_installation_guide_oraclelinux_9_6.md
+│   ├── oracle_database_26ai_post_installation_guide_oraclelinux_9_6.md
+│   └── images/
+│       ├── image1_oracle_database_26ai_pre_installation_guide_oraclelinux_9_6.png
+│       ├── ... (image2 – image4)
+│       ├── image1_oracle_database_26ai_installation_guide_oraclelinux_9_6.png
+│       └── ... (image2 – image36)
 ├── oracle-database-19c-linux-al8/
 │   ├── oracle_database_19c_pre_installation_guide_almalinux_8_10.md
 │   ├── oracle_database_19c_installation_guide_almalinux_8_10.md
